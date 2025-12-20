@@ -1,0 +1,23 @@
+services:
+  mongodb:
+    hostname: mongodb
+    image: mongodb/mongodb-atlas-local
+    ports:
+      - 27017:27017
+    volumes:
+      - ./configdb:/data/configdb
+      - ./db:/data/db
+      - ./mongot:/data/mongot
+
+  server:
+    build:
+      context: .
+      target: development
+    depends_on:
+      - mongodb
+    env_file:
+      - .env
+    ports:
+      - 8080:8080
+    volumes:
+      - ./:/home/node/app

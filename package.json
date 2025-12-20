@@ -1,0 +1,53 @@
+{
+  "name": "mojimage",
+  "version": "1.0.0",
+  "private": true,
+  "author": "hata6502",
+  "type": "module",
+  "scripts": {
+    "build": "rm -rf dist && run-s build:*",
+    "build:css": "npx @tailwindcss/cli -i src/client/index.css -o public/index.css --minify",
+    "build:clientjs": "node --env-file-if-exists=.env esbuild.ts",
+    "build:serverjs": "tsc --noCheck",
+    "fix": "prettier . --write",
+    "snapshot": "node --test --test-update-snapshots 'dist/**/*.test.js'",
+    "start": "node --env-file-if-exists=.env dist/server/index.js",
+    "test": "run-s test:*",
+    "test:format": "prettier . --check",
+    "test:type": "tsc --noEmit",
+    "test:unit": "node --test 'dist/**/*.test.js'"
+  },
+  "dependencies": {
+    "compression": "^1.8.1",
+    "connect-mongo": "^6.0.0",
+    "express": "^5.2.1",
+    "express-session": "^1.18.2",
+    "helmet": "^8.1.0",
+    "mongodb": "^7.0.0",
+    "npm-run-all": "^4.1.5",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "zod": "^4.2.1"
+  },
+  "devDependencies": {
+    "@headlessui/react": "^2.2.9",
+    "@heroicons/react": "^2.2.0",
+    "@tailwindcss/cli": "^4.1.18",
+    "@types/compression": "^1.8.1",
+    "@types/express": "^5.0.6",
+    "@types/express-session": "^1.18.2",
+    "@types/node": "^25.0.3",
+    "@types/passport": "^1.0.17",
+    "@types/passport-google-oauth20": "^2.0.17",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "clsx": "^2.1.1",
+    "esbuild": "^0.27.2",
+    "prettier": "^3.7.4",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,42 @@
+name: Deploy production
+on:
+  push:
+    branches:
+      - main
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    env:
+      IMAGE: "asia-northeast1-docker.pkg.dev/mojimage-production/server/server:${{ github.sha }}"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: google-github-actions/auth@v3
+        with:
+          project_id: mojimage-production
+          workload_identity_provider: projects/515752173110/locations/global/workloadIdentityPools/github/providers/my-repo
+      - run: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
+
+      # https://docs.docker.com/build/ci/github-actions/cache/#cache-backend-api
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: "${{ env.IMAGE }}"
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - uses: google-github-actions/deploy-cloudrun@v3
+        with:
+          service: server
+          region: asia-northeast1
+          image: "${{ env.IMAGE }}"
+          secrets: |-
+            APP_URL=APP_URL:latest
+            MONGODB_DATABASE=MONGODB_DATABASE:latest
+            MONGODB_HOST=MONGODB_HOST:latest
+            NODE_ENV=NODE_ENV:latest
+            SESSION_SECRET=SESSION_SECRET:latest

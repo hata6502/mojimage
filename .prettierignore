@@ -1,0 +1,14 @@
+*.tfvars
+.terraform
+gha-creds-*.json
+/.env
+/.git
+/catalyst-ui-kit
+/configdb
+/db
+/dist
+/mongot
+/node_modules
+/public/index.css
+/public/index.js
+/public/service-worker.js
