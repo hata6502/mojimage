@@ -44,7 +44,7 @@ resource "google_cloud_run_v2_service" "server" {
 
   template {
     containers {
-      image = "${var.google_cloud_region}-docker.pkg.dev/${var.google_cloud_project}/server/server"
+      image = "${var.google_cloud_region}-docker.pkg.dev/${var.google_cloud_project}/server/server:c0bffeee67604b1dd70b04d526adf9cc0693a857"
 
       resources {
         cpu_idle          = true
