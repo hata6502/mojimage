@@ -15,7 +15,11 @@ resource "google_project_iam_member" "run_developer" {
   role    = "roles/run.developer"
   member  = var.google_cloud_github_federation
 }
-
+resource "google_project_iam_member" "service_account_user" {
+  project = var.google_cloud_project
+  role    = "roles/iam.serviceAccountUser"
+  member  = var.google_cloud_github_federation
+}
 resource "google_artifact_registry_repository" "server" {
   repository_id = "server"
   location      = var.google_cloud_region
