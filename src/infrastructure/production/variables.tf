@@ -15,7 +15,8 @@ variable "mongodbatlas_client_id" {
   type = string
 }
 variable "mongodbatlas_client_secret" {
-  type = string
+  type      = string
+  sensitive = true
 }
 variable "mongodbatlas_project_id" {
   type = string
