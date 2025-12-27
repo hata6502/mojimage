@@ -21,3 +21,4 @@ services:
       - 8080:8080
     volumes:
       - ./:/home/node/app
+      - ./application_default_credentials.json:/home/node/.config/gcloud/application_default_credentials.json

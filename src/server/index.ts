@@ -22,14 +22,13 @@ app.set(
 
 app.use(compression());
 app.use(express.json());
-app.use(helmet);
 
 app.use(session);
 app.use(passport.authenticate("session"));
 
-app.get("/", getIndex);
+app.get("/", helmet, getIndex);
 
-app.use("/", express.static("public"));
+app.use("/", helmet, express.static("public"));
 
 const server = app.listen(8080);
 

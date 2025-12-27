@@ -1,11 +1,25 @@
-const { APP_URL, MONGODB_DATABASE, MONGODB_HOST, NODE_ENV, SESSION_SECRET } =
-  process.env;
+const {
+  APP_URL,
+  IMAGE_BUCKET_NAME,
+  MONGODB_DATABASE,
+  MONGODB_HOST,
+  NODE_ENV,
+  OPENAI_API_KEY,
+  SESSION_SECRET,
+} = process.env;
 
 export const getAppURL = () => {
   if (!APP_URL) {
     throw new Error("APP_URL must be set");
   }
   return APP_URL;
+};
+
+export const getImageBucketName = () => {
+  if (!IMAGE_BUCKET_NAME) {
+    throw new Error("IMAGE_BUCKET_NAME must be set");
+  }
+  return IMAGE_BUCKET_NAME;
 };
 
 export const getMongoDBURI = () => {
@@ -20,6 +34,13 @@ export const getNodeEnv = () => {
     throw new Error("NODE_ENV must be set to either development or production");
   }
   return NODE_ENV;
+};
+
+export const getOpenAIAPIKey = () => {
+  if (!OPENAI_API_KEY) {
+    throw new Error("OPENAI_API_KEY must be set");
+  }
+  return OPENAI_API_KEY;
 };
 
 export const getSessionSecret = () => {

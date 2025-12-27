@@ -1,38 +1,11 @@
-import "./clarity";
+import type { FunctionComponent } from "react";
 
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import { createApp } from "./app.js";
 
-import { App } from "./app.js";
-
-try {
-  const registration = await navigator.serviceWorker.register(
-    "/service-worker.js",
-    { type: "module" },
+const App: FunctionComponent = () => {
+  return (
+    <img src="https://storage.googleapis.com/image-mojimage-development/695014bdf34a3c2402f76daf.jpg" />
   );
+};
 
-  registration.onupdatefound = () => {
-    const installing = registration.installing;
-    if (installing) {
-      installing.onstatechange = () => {
-        if (
-          installing.state === "activated" &&
-          // 古いService Workerが存在する場合
-          navigator.serviceWorker.controller
-        ) {
-          location.reload();
-        }
-      };
-    }
-  };
-} catch (exception) {
-  console.error(exception);
-}
-
-const container = document.createElement("div");
-document.body.append(container);
-createRoot(container).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+await createApp(<App />);
