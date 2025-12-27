@@ -36,7 +36,9 @@ jobs:
           image: "${{ env.IMAGE }}"
           secrets: |-
             APP_URL=APP_URL:latest
+            IMAGE_BUCKET_NAME=IMAGE_BUCKET_NAME:latest
             MONGODB_DATABASE=MONGODB_DATABASE:latest
             MONGODB_HOST=MONGODB_HOST:latest
             NODE_ENV=NODE_ENV:latest
+            OPENAI_API_KEY=OPENAI_API_KEY:latest
             SESSION_SECRET=SESSION_SECRET:latest
