@@ -8,7 +8,7 @@ export const helmet = expressHelmet({
       "connect-src": ["'self'", "https://c.bing.com", "https://*.clarity.ms"],
       "img-src": [
         "'self'",
-        `https://storage.googleapis.com/${getImageBucketName()}/`,
+        `https://storage.googleapis.com/${encodeURIComponent(getImageBucketName())}/`,
       ],
       "script-src": ["'self'", "https://c.bing.com", "https://*.clarity.ms"],
     },
