@@ -1,6 +1,9 @@
+import { useEffect, useRef } from "react";
 import type { FunctionComponent } from "react";
+import stringWidth from "string-width";
 
 import { imageJSONSchema } from "../specification.js";
+import { adjustedAnnotations } from "./annotation.js";
 import { createApp } from "./app.js";
 
 const imageJSON = document.querySelector("#image")?.textContent;
@@ -10,12 +13,74 @@ if (!imageJSON) {
 const image = imageJSONSchema.parse(JSON.parse(imageJSON));
 
 const App: FunctionComponent = () => {
+  const textLayer = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!textLayer.current) {
+      return;
+    }
+    const currentTextLayer = textLayer.current;
+
+    for (const annotation of adjustedAnnotations(image.textAnnotations)) {
+      const left = (annotation.left / image.width) * innerWidth;
+      const top = (annotation.top / image.height) * innerHeight;
+      const width =
+        ((annotation.right - annotation.left) / image.width) * innerWidth;
+      const height =
+        ((annotation.bottom - annotation.top) / image.height) * innerHeight;
+
+      const defaultFontSize = Math.min(width, height);
+      const expectedLength = Math.max(width, height);
+      // 例えば「it」2文字だと、widthよりもheightの方が大きいため、縦書きとして判定されてしまう
+      // 実際には横書きであることが多いため、2文字以下の場合は横書きとして判定させる
+      const horizontal =
+        stringWidth(annotation.description) < 3 || width >= height;
+
+      const text = document.createElement("span");
+      text.classList.add(
+        "absolute",
+        "text-transparent",
+        "whitespace-nowrap",
+        "selection:bg-blue-200",
+        "selection:text-black",
+      );
+      text.style.left = `${left}px`;
+      text.style.top = `${top}px`;
+      text.style.letterSpacing = "0";
+      text.style.fontSize = `${defaultFontSize}px`;
+      text.style.width = "";
+      text.style.height = "";
+      text.style.writingMode = horizontal ? "horizontal-tb" : "vertical-rl";
+      text.textContent = annotation.description;
+      currentTextLayer.append(text);
+
+      const rect = text.getBoundingClientRect();
+      const actualLength = Math.max(rect.width, rect.height);
+      text.style.letterSpacing = `${
+        Math.max(expectedLength - actualLength, 0) /
+        [...new Intl.Segmenter().segment(annotation.description)].length
+      }px`;
+      text.style.fontSize = `${
+        defaultFontSize * Math.min(expectedLength / actualLength, 1)
+      }px`;
+      text.style.width = `${width}px`;
+      text.style.height = `${height}px`;
+    }
+
+    return () => {
+      currentTextLayer.replaceChildren();
+    };
+  }, [image]);
+
   return (
     <>
       <img
         src={`https://storage.googleapis.com/${encodeURIComponent(image.bucketName)}/${encodeURIComponent(image.id)}${encodeURIComponent(image.ext)}`}
         alt={image.alt}
+        className="w-full"
       />
+
+      <div ref={textLayer} className="absolute top-0 left-0" />
     </>
   );
 };

@@ -4,7 +4,7 @@ import passport from "passport";
 
 import { getNodeEnv } from "./env.js";
 import { helmet } from "./helmet.js";
-import { getIndex } from "./index-router.js";
+import { imagesRouter } from "./images.js";
 import { mongoClient } from "./mongodb.js";
 import { session } from "./session.js";
 
@@ -26,9 +26,9 @@ app.use(express.json());
 app.use(session);
 app.use(passport.authenticate("session"));
 
-app.get("/", helmet, getIndex);
+app.use("/images", imagesRouter);
 
-app.use("/", helmet, express.static("public"));
+app.use("/", helmet(), express.static("public"));
 
 const server = app.listen(8080);
 
