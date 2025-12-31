@@ -12,7 +12,7 @@ import { getImageBucketName, getOpenAIAPIKey } from "./env.js";
 import { imageCollection } from "./image.js";
 import { mongoClient } from "./mongodb.js";
 
-const [, , imageURL] = process.argv;
+const [, , imageURL, width, height] = process.argv;
 
 const imageAnnotatorClient = new vision.ImageAnnotatorClient();
 const openai = new OpenAI({ apiKey: getOpenAIAPIKey() });
@@ -69,8 +69,8 @@ try {
       await imageCollection.insertOne(
         {
           _id,
-          width: 4624,
-          height: 3472,
+          width: Number(width),
+          height: Number(height),
           ext,
           alt: analyzeResult.alt,
           textAnnotations,
