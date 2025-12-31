@@ -1,4 +1,9 @@
-const mojimageRequests = ["/", "/favicon.png", "/index.css", "/index.js"];
+const mojimageRequests = [
+  "/embed.js",
+  "/favicon.png",
+  "/index.css",
+  "/index.js",
+];
 
 const mojimageCacheName = `mojimage-${process.env.TIMESTAMP}`;
 const serviceWorker = globalThis as unknown as ServiceWorkerGlobalScope;

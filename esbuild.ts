@@ -2,6 +2,7 @@ import * as esbuild from "esbuild";
 
 await Promise.all(
   [
+    { entryPoints: ["src/client/embed.ts"], outfile: "public/embed.js" },
     { entryPoints: ["src/client/index.tsx"], outfile: "public/index.js" },
     {
       entryPoints: ["src/client/service-worker.ts"],

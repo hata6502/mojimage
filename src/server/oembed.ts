@@ -1,15 +1,14 @@
 import type { RequestHandler } from "express";
 import { JSDOM } from "jsdom";
 import { ObjectId } from "mongodb";
-import { z } from "zod";
 
+import { oEmbedRequestSchema } from "../specification.js";
+import type { OEmbedResponse } from "../specification.js";
 import { getAppURL } from "./env.js";
 import { imageCollection } from "./image.js";
 
 export const getOEmbed: RequestHandler = async (req, res) => {
-  const { data } = z
-    .object({ url: z.string(), format: z.literal("json") })
-    .safeParse(req.query);
+  const { data } = oEmbedRequestSchema.safeParse(req.query);
   if (!data) {
     res.status(400).end();
     return;
@@ -56,7 +55,7 @@ export const getOEmbed: RequestHandler = async (req, res) => {
       html: window.document.body.innerHTML,
       width: image.width,
       height: image.height,
-    });
+    } satisfies OEmbedResponse);
     return;
   }
 

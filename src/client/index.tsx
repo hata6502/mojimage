@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { FunctionComponent } from "react";
 import stringWidth from "string-width";
 
@@ -13,7 +13,19 @@ if (!imageJSON) {
 const image = imageJSONSchema.parse(JSON.parse(imageJSON));
 
 const App: FunctionComponent = () => {
+  const [resizeCount, setResizeCount] = useState(0);
+
   const textLayer = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setResizeCount((prevResizeCount) => prevResizeCount + 1);
+    };
+    addEventListener("resize", handleResize);
+    return () => {
+      removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     if (!textLayer.current) {
@@ -70,14 +82,14 @@ const App: FunctionComponent = () => {
     return () => {
       currentTextLayer.replaceChildren();
     };
-  }, [image]);
+  }, [image, resizeCount]);
 
   return (
     <>
       <img
         src={`https://storage.googleapis.com/${encodeURIComponent(image.bucketName)}/${encodeURIComponent(image.id)}${encodeURIComponent(image.ext)}`}
         alt={image.alt}
-        className="w-full"
+        style={{ width: innerWidth, height: innerHeight }}
       />
 
       <div ref={textLayer} className="absolute top-0 left-0" />

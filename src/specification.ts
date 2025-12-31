@@ -24,3 +24,17 @@ export const imageJSONSchema = z.object({
   bucketName: z.string(),
 });
 export type ImageJSON = z.infer<typeof imageJSONSchema>;
+
+export type OEmbedRequest = z.infer<typeof oEmbedRequestSchema>;
+export const oEmbedRequestSchema = z.object({
+  url: z.string(),
+  format: z.literal("json"),
+});
+export type OEmbedResponse = z.infer<typeof oEmbedResponseSchema>;
+export const oEmbedResponseSchema = z.object({
+  type: z.literal("rich"),
+  version: z.literal("1.0"),
+  html: z.string(),
+  width: z.number(),
+  height: z.number(),
+});
