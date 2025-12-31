@@ -2,7 +2,7 @@ import expressHelmet from "helmet";
 
 import { getImageBucketName } from "./env.js";
 
-export const helmet = () => {
+export const helmet = ({ embed }: { embed: boolean }) => {
   const imageBucketURL = `https://storage.googleapis.com/${encodeURIComponent(getImageBucketName())}/`;
 
   return expressHelmet({
@@ -14,6 +14,7 @@ export const helmet = () => {
           "https://*.clarity.ms",
           imageBucketURL,
         ],
+        "frame-ancestors": [embed ? "*" : "'self'"],
         "img-src": ["'self'", imageBucketURL],
         "script-src": ["'self'", "https://c.bing.com", "https://*.clarity.ms"],
       },

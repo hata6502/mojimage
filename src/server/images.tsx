@@ -9,7 +9,7 @@ import { imageCollection } from "./image.js";
 
 export const imagesRouter = express.Router({ strict: true });
 
-imagesRouter.get("/:imageID", helmet(), async (req, res) => {
+imagesRouter.get("/:imageID", helmet({ embed: true }), async (req, res) => {
   const { imageID } = req.params;
 
   const image = await imageCollection.findOne({ _id: new ObjectId(imageID) });

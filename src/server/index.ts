@@ -1,4 +1,5 @@
 import compression from "compression";
+import cors from "cors";
 import express from "express";
 import passport from "passport";
 
@@ -28,9 +29,9 @@ app.use(session);
 app.use(passport.authenticate("session"));
 
 app.use("/images", imagesRouter);
-app.get("/oembed", helmet(), getOEmbed);
+app.get("/oembed", cors(), helmet({ embed: false }), getOEmbed);
 
-app.use("/", helmet(), express.static("public"));
+app.use("/", cors(), helmet({ embed: false }), express.static("public"));
 
 const server = app.listen(8080);
 
