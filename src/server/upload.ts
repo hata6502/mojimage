@@ -12,12 +12,13 @@ import { getImageBucketName, getOpenAIAPIKey } from "./env.js";
 import { imageCollection } from "./image.js";
 import { mongoClient } from "./mongodb.js";
 
+const [, , imageURL] = process.argv;
+
 const imageAnnotatorClient = new vision.ImageAnnotatorClient();
 const openai = new OpenAI({ apiKey: getOpenAIAPIKey() });
 const storage = new Storage();
 
 try {
-  const imageURL = "https://i.gyazo.com/b1946c2cb95ae1245182b1aff795a59e.jpg";
   const _id = new ObjectId();
   const ext = path.extname(imageURL);
   const fileName = `${_id}${ext}`;
@@ -78,6 +79,11 @@ try {
       );
     }),
   );
+
+  console.log("Image uploaded and analyzed successfully:", {
+    _id,
+    alt: analyzeResult.alt,
+  });
 } finally {
   await mongoClient.close();
 }
