@@ -6,6 +6,7 @@ import { getNodeEnv } from "./env.js";
 import { helmet } from "./helmet.js";
 import { imagesRouter } from "./images.js";
 import { mongoClient } from "./mongodb.js";
+import { getOEmbed } from "./oembed.js";
 import { session } from "./session.js";
 
 const app = express();
@@ -27,6 +28,7 @@ app.use(session);
 app.use(passport.authenticate("session"));
 
 app.use("/images", imagesRouter);
+app.get("/oembed", helmet(), getOEmbed);
 
 app.use("/", helmet(), express.static("public"));
 
