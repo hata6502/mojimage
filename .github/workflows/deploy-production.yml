@@ -11,6 +11,14 @@ jobs:
   deploy:
     env:
       IMAGE: "asia-northeast1-docker.pkg.dev/mojimage-production/server/server:${{ github.sha }}"
+      SECRETS: |-
+        APP_URL=APP_URL:latest
+        IMAGE_BUCKET_NAME=IMAGE_BUCKET_NAME:latest
+        MONGODB_DATABASE=MONGODB_DATABASE:latest
+        MONGODB_HOST=MONGODB_HOST:latest
+        NODE_ENV=NODE_ENV:latest
+        OPENAI_API_KEY=OPENAI_API_KEY:latest
+        SESSION_SECRET=SESSION_SECRET:latest
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -34,11 +42,10 @@ jobs:
           service: server
           region: asia-northeast1
           image: "${{ env.IMAGE }}"
-          secrets: |-
-            APP_URL=APP_URL:latest
-            IMAGE_BUCKET_NAME=IMAGE_BUCKET_NAME:latest
-            MONGODB_DATABASE=MONGODB_DATABASE:latest
-            MONGODB_HOST=MONGODB_HOST:latest
-            NODE_ENV=NODE_ENV:latest
-            OPENAI_API_KEY=OPENAI_API_KEY:latest
-            SESSION_SECRET=SESSION_SECRET:latest
+          secrets: "${{ env.SECRETS }}"
+      - uses: google-github-actions/deploy-cloudrun@v3
+        with:
+          job: job
+          region: asia-northeast1
+          image: "${{ env.IMAGE }}"
+          secrets: "${{ env.SECRETS }}"

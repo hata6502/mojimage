@@ -86,7 +86,6 @@ resource "google_cloud_run_v2_service_iam_policy" "server_run_invoker" {
   location    = var.google_cloud_region
   policy_data = data.google_iam_policy.noauth.policy_data
 }
-
 resource "google_cloud_run_domain_mapping" "server" {
   name     = "mojimage.hata6502.com"
   location = var.google_cloud_region
@@ -97,6 +96,46 @@ resource "google_cloud_run_domain_mapping" "server" {
 
   spec {
     route_name = google_cloud_run_v2_service.server.name
+  }
+}
+
+resource "google_cloud_run_v2_job" "job" {
+  name     = "job"
+  location = var.google_cloud_region
+
+  template {
+    parallelism = 0
+    task_count  = 1
+
+    template {
+      max_retries = 0
+      timeout     = "3600s"
+
+      containers {
+        image   = "${var.google_cloud_region}-docker.pkg.dev/${var.google_cloud_project}/server/server:e5ab2337b88d62bab2147373e7906aa50f4ce4ff"
+        command = []
+        args    = []
+
+        resources {
+          limits = {
+            cpu    = "2000m"
+            memory = "1024Mi"
+          }
+        }
+      }
+    }
+  }
+
+  lifecycle {
+    ignore_changes = [
+      client,
+      client_version,
+      template[0].template[0].containers[0].env,
+      template[0].template[0].containers[0].image,
+      template[0].labels["commit-sha"],
+      template[0].labels["goog-terraform-provisioned"],
+      template[0].labels["managed-by"],
+    ]
   }
 }
 
