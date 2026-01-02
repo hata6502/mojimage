@@ -3,13 +3,12 @@ import { ObjectId } from "mongodb";
 import { renderToStaticMarkup } from "react-dom/server";
 
 import type { ImageJSON } from "../specification.js";
-import { getImageBucketName } from "./env.js";
 import { helmet } from "./helmet.js";
 import { imageCollection } from "./image.js";
 
-export const imagesRouter = express.Router({ strict: true });
+export const framesRouter = express.Router({ strict: true });
 
-imagesRouter.get("/:imageID", helmet({ embed: true }), async (req, res) => {
+framesRouter.get("/:imageID", helmet({ embed: true }), async (req, res) => {
   const { imageID } = req.params;
 
   const image = await imageCollection.findOne({ _id: new ObjectId(imageID) });
@@ -22,10 +21,8 @@ imagesRouter.get("/:imageID", helmet({ embed: true }), async (req, res) => {
     id: String(image._id),
     width: image.width,
     height: image.height,
-    ext: image.ext,
     alt: image.alt,
     textAnnotations: image.textAnnotations,
-    bucketName: getImageBucketName(),
   };
 
   res.send(`<!DOCTYPE html>
@@ -51,7 +48,7 @@ ${renderToStaticMarkup(
         {JSON.stringify(imageJSON)}
       </script>
 
-      <script type="module" src="/index.js"></script>
+      <script type="module" src="/frame.js"></script>
     </body>
   </html>,
 )}`);

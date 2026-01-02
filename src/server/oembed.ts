@@ -41,7 +41,7 @@ export const getOEmbed: RequestHandler = async (req, res) => {
     iframe.width = String(image.width);
     iframe.height = String(image.height);
     iframe.src = String(
-      new URL(`images/${encodeURIComponent(String(image._id))}`, getAppURL()),
+      new URL(`frames/${encodeURIComponent(String(image._id))}`, getAppURL()),
     );
     iframe.lang = image.textAnnotations[0].locale;
     iframe.role = "img";

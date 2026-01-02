@@ -11,6 +11,6 @@ gha-creds-*.json
 /mongot
 /node_modules
 /public/embed.js
+/public/frame.js
 /public/index.css
-/public/index.js
 /public/service-worker.js

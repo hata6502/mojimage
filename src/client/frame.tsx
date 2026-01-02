@@ -87,7 +87,7 @@ const App: FunctionComponent = () => {
   return (
     <>
       <img
-        src={`https://storage.googleapis.com/${encodeURIComponent(image.bucketName)}/${encodeURIComponent(image.id)}${encodeURIComponent(image.ext)}`}
+        src={`/images/${encodeURIComponent(image.id)}`}
         alt={image.alt}
         style={{ width: innerWidth, height: innerHeight }}
       />

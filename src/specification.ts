@@ -18,10 +18,8 @@ export const imageJSONSchema = z.object({
   id: z.string(),
   width: z.number(),
   height: z.number(),
-  ext: z.string(),
   alt: z.string(),
   textAnnotations: z.array(textAnnotationSchema),
-  bucketName: z.string(),
 });
 export type ImageJSON = z.infer<typeof imageJSONSchema>;
 
