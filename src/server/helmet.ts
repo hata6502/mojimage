@@ -12,7 +12,6 @@ export const helmet = ({
   const imageBucketURL = `https://storage.googleapis.com/${encodeURIComponent(getImageBucketName())}/`;
 
   return expressHelmet({
-    crossOriginResourcePolicy: { policy: corp },
     contentSecurityPolicy: {
       directives: {
         "connect-src": [
@@ -26,5 +25,6 @@ export const helmet = ({
         "script-src": ["'self'", "https://c.bing.com", "https://*.clarity.ms"],
       },
     },
+    crossOriginResourcePolicy: { policy: corp },
   });
 };
