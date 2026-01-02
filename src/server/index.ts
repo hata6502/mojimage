@@ -31,9 +31,19 @@ app.use(passport.authenticate("session"));
 
 app.use("/frames", framesRouter);
 app.use("/images", imagesRouter);
-app.get("/oembed", cors(), helmet({ embed: false }), getOEmbed);
+app.get(
+  "/oembed",
+  cors(),
+  helmet({ corp: "same-origin", embed: false }),
+  getOEmbed,
+);
 
-app.use("/", cors(), helmet({ embed: false }), express.static("public"));
+app.use(
+  "/",
+  cors(),
+  helmet({ corp: "same-origin", embed: false }),
+  express.static("public"),
+);
 
 const server = app.listen(8080);
 

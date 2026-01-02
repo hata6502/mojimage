@@ -1,4 +1,3 @@
-import cors from "cors";
 import express from "express";
 import { ObjectId } from "mongodb";
 
@@ -10,8 +9,7 @@ export const imagesRouter = express.Router({ strict: true });
 
 imagesRouter.get(
   "/:imageID",
-  cors(),
-  helmet({ embed: false }),
+  helmet({ corp: "cross-origin", embed: false }),
   async (req, res) => {
     const { imageID } = req.params;
 

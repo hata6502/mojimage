@@ -2,10 +2,17 @@ import expressHelmet from "helmet";
 
 import { getImageBucketName } from "./env.js";
 
-export const helmet = ({ embed }: { embed: boolean }) => {
+export const helmet = ({
+  corp,
+  embed,
+}: {
+  corp: "cross-origin" | "same-origin";
+  embed: boolean;
+}) => {
   const imageBucketURL = `https://storage.googleapis.com/${encodeURIComponent(getImageBucketName())}/`;
 
   return expressHelmet({
+    crossOriginResourcePolicy: { policy: corp },
     contentSecurityPolicy: {
       directives: {
         "connect-src": [
