@@ -2,6 +2,7 @@ import path from "node:path";
 
 import { Storage } from "@google-cloud/storage";
 import vision from "@google-cloud/vision";
+import { Jimp } from "jimp";
 import { ObjectId } from "mongodb";
 import OpenAI from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
@@ -12,7 +13,7 @@ import { getImageBucketName, getOpenAIAPIKey } from "./env.js";
 import { imageCollection } from "./image.js";
 import { mongoClient } from "./mongodb.js";
 
-const [, , imageURL, width, height] = process.argv;
+const [, , imageURL] = process.argv;
 
 const imageAnnotatorClient = new vision.ImageAnnotatorClient();
 const openai = new OpenAI({ apiKey: getOpenAIAPIKey() });
@@ -27,9 +28,15 @@ try {
   if (!imageResponse.ok) {
     throw new Error("Failed to fetch image");
   }
-  const image = new Uint8Array(await imageResponse.arrayBuffer());
+  const image = await imageResponse.arrayBuffer();
 
-  await storage.bucket(getImageBucketName()).file(fileName).save(image);
+  // 最初に画像形式を制限する
+  const jimpImage = await Jimp.fromBuffer(image);
+
+  await storage
+    .bucket(getImageBucketName())
+    .file(fileName)
+    .save(new Uint8Array(image));
 
   const [annotateImageResponse] = await imageAnnotatorClient.textDetection(
     `gs://${encodeURIComponent(getImageBucketName())}/${encodeURIComponent(fileName)}`,
@@ -69,8 +76,8 @@ try {
       await imageCollection.insertOne(
         {
           _id,
-          width: Number(width),
-          height: Number(height),
+          width: jimpImage.bitmap.width,
+          height: jimpImage.bitmap.height,
           ext,
           alt: analyzeResult.alt,
           textAnnotations,
