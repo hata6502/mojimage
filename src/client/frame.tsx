@@ -89,6 +89,7 @@ const App: FunctionComponent = () => {
       <img
         src={`/images/${encodeURIComponent(image.id)}`}
         alt={image.alt}
+        className="select-none"
         style={{ width: innerWidth, height: innerHeight }}
       />
 
