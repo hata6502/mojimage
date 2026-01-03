@@ -51,6 +51,7 @@ const App: FunctionComponent = () => {
       const text = document.createElement("span");
       text.classList.add(
         "absolute",
+        "leading-none",
         "text-transparent",
         "whitespace-nowrap",
         "selection:bg-blue-200",
