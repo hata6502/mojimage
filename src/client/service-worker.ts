@@ -1,8 +1,10 @@
 const mojimageRequests = [
+  "/",
   "/embed.js",
   "/favicon.png",
   "/frame.js",
   "/index.css",
+  "/index.js",
 ];
 
 const mojimageCacheName = `mojimage-${process.env.TIMESTAMP}`;

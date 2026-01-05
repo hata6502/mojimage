@@ -36,3 +36,21 @@ export const oEmbedResponseSchema = z.object({
   width: z.number(),
   height: z.number(),
 });
+
+export type AuthedUserResponse = z.infer<typeof authedUserResponseSchema>;
+export const authedUserResponseSchema = z.object({
+  authedUser: z
+    .object({
+      id: z.string(),
+      name: z.string(),
+      photo: z.string().optional(),
+    })
+    .optional(),
+});
+
+export type UploadImageRequest = z.infer<typeof uploadImageRequestSchema>;
+export const uploadImageRequestSchema = z.object({
+  image: z.url({ protocol: /^data$/ }),
+});
+export type UploadImageResponse = z.infer<typeof uploadImageResponseSchema>;
+export const uploadImageResponseSchema = z.object({ id: z.string() });

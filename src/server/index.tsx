@@ -2,6 +2,7 @@ import compression from "compression";
 import cors from "cors";
 import express from "express";
 import passport from "passport";
+import { renderToStaticMarkup } from "react-dom/server";
 
 import { authRouter } from "./auth.js";
 import { getNodeEnv } from "./env.js";
@@ -10,7 +11,6 @@ import { framesRouter } from "./frames.js";
 import { imagesRouter } from "./images.js";
 import { mongoClient } from "./mongodb.js";
 import { getOEmbed } from "./oembed.js";
-import { getRoot } from "./root.js";
 import { session } from "./session.js";
 
 const app = express();
@@ -26,12 +26,35 @@ app.set(
 );
 
 app.use(compression());
-app.use(express.json());
+app.use(express.json({ limit: "16mb" }));
 
 app.use(session);
 app.use(passport.authenticate("session"));
 
-app.get("/", helmet({ corp: "same-origin", embed: false }), getRoot);
+app.get("/", helmet({ corp: "same-origin", embed: false }), (_req, res) => {
+  res.send(`<!DOCTYPE html>
+${renderToStaticMarkup(
+  <html lang="ja">
+    <head>
+      <meta charSet="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      <title>Mojimage</title>
+
+      <link rel="apple-touch-icon" href="/favicon.png" />
+      <link rel="icon" type="image/png" href="/favicon.png" />
+      <link rel="manifest" href="/manifest.json" />
+
+      <link rel="stylesheet" href="/index.css" />
+    </head>
+
+    <body>
+      <script type="module" src="/index.js"></script>
+    </body>
+  </html>,
+)}`);
+});
+
 app.use("/auth", authRouter);
 app.use("/frames", framesRouter);
 app.use("/images", imagesRouter);

@@ -4,6 +4,7 @@ import type { WithId } from "mongodb";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 
+import type { AuthedUserResponse } from "../specification.js";
 import { getAppURL, getGoogleClientID, getGoogleClientSecret } from "./env.js";
 import { federatedCredentialCollection } from "./federated-credential.js";
 import { mongoClient } from "./mongodb.js";
@@ -32,6 +33,16 @@ passport.deserializeUser<string>(async (id, done) => {
   } catch (exception) {
     done(exception);
   }
+});
+
+authRouter.get("/user", (req, res) => {
+  res.json({
+    authedUser: req.user && {
+      id: String(req.user._id),
+      name: req.user.name,
+      photo: req.user.photos?.at(0)?.value,
+    },
+  } satisfies AuthedUserResponse);
 });
 
 const googleStrategy = new GoogleStrategy(

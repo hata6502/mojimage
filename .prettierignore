@@ -13,4 +13,5 @@ gha-creds-*.json
 /public/embed.js
 /public/frame.js
 /public/index.css
+/public/index.js
 /public/service-worker.js
