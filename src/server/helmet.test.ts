@@ -7,20 +7,26 @@ import { describe, it } from "node:test";
 import { helmet } from "./helmet.js";
 
 describe("helmet", () => {
-  it("セキュリティヘッダーが設定される", async (t) => {
-    const req = new IncomingMessage(new Socket());
-    const res = new ServerResponse(req);
+  for (const args of [
+    { corp: "same-origin", embed: false },
+    { corp: "cross-origin", embed: false },
+    { corp: "same-origin", embed: true },
+  ] as const) {
+    it(JSON.stringify(args), async (t) => {
+      const req = new IncomingMessage(new Socket());
+      const res = new ServerResponse(req);
 
-    await new Promise<void>((resolve, reject) => {
-      helmet(req, res, (err) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve();
+      await new Promise<void>((resolve, reject) => {
+        helmet(args)(req, res, (err) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+          resolve();
+        });
       });
-    });
 
-    t.assert.snapshot(res.getHeaders());
-  });
+      t.assert.snapshot(res.getHeaders());
+    });
+  }
 });

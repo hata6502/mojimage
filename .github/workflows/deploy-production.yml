@@ -13,6 +13,8 @@ jobs:
       IMAGE: "asia-northeast1-docker.pkg.dev/mojimage-production/server/server:${{ github.sha }}"
       SECRETS: |-
         APP_URL=APP_URL:latest
+        GOOGLE_CLIENT_ID=GOOGLE_CLIENT_ID:latest
+        GOOGLE_CLIENT_SECRET=GOOGLE_CLIENT_SECRET:latest
         IMAGE_BUCKET_NAME=IMAGE_BUCKET_NAME:latest
         MONGODB_DATABASE=MONGODB_DATABASE:latest
         MONGODB_HOST=MONGODB_HOST:latest

@@ -1,5 +1,7 @@
 const {
   APP_URL,
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
   IMAGE_BUCKET_NAME,
   MONGODB_DATABASE,
   MONGODB_HOST,
@@ -13,6 +15,20 @@ export const getAppURL = () => {
     throw new Error("APP_URL must be set");
   }
   return APP_URL;
+};
+
+export const getGoogleClientID = () => {
+  if (!GOOGLE_CLIENT_ID) {
+    throw new Error("GOOGLE_CLIENT_ID must be set");
+  }
+  return GOOGLE_CLIENT_ID;
+};
+
+export const getGoogleClientSecret = () => {
+  if (!GOOGLE_CLIENT_SECRET) {
+    throw new Error("GOOGLE_CLIENT_SECRET must be set");
+  }
+  return GOOGLE_CLIENT_SECRET;
 };
 
 export const getImageBucketName = () => {

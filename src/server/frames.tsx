@@ -8,24 +8,27 @@ import { imageCollection } from "./image.js";
 
 export const framesRouter = express.Router({ strict: true });
 
-framesRouter.get("/:imageID", helmet({ embed: true }), async (req, res) => {
-  const { imageID } = req.params;
+framesRouter.get(
+  "/:imageID",
+  helmet({ corp: "same-origin", embed: true }),
+  async (req, res) => {
+    const { imageID } = req.params;
 
-  const image = await imageCollection.findOne({ _id: new ObjectId(imageID) });
-  if (!image) {
-    res.status(404).end();
-    return;
-  }
+    const image = await imageCollection.findOne({ _id: new ObjectId(imageID) });
+    if (!image) {
+      res.status(404).end();
+      return;
+    }
 
-  const imageJSON: ImageJSON = {
-    id: String(image._id),
-    width: image.width,
-    height: image.height,
-    alt: image.alt,
-    textAnnotations: image.textAnnotations,
-  };
+    const imageJSON: ImageJSON = {
+      id: String(image._id),
+      width: image.width,
+      height: image.height,
+      alt: image.alt,
+      textAnnotations: image.textAnnotations,
+    };
 
-  res.send(`<!DOCTYPE html>
+    res.send(`<!DOCTYPE html>
 ${renderToStaticMarkup(
   <html lang={image.textAnnotations[0].locale}>
     <head>
@@ -52,4 +55,5 @@ ${renderToStaticMarkup(
     </body>
   </html>,
 )}`);
-});
+  },
+);

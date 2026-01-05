@@ -3,12 +3,14 @@ import cors from "cors";
 import express from "express";
 import passport from "passport";
 
+import { authRouter } from "./auth.js";
 import { getNodeEnv } from "./env.js";
 import { helmet } from "./helmet.js";
 import { framesRouter } from "./frames.js";
 import { imagesRouter } from "./images.js";
 import { mongoClient } from "./mongodb.js";
 import { getOEmbed } from "./oembed.js";
+import { getRoot } from "./root.js";
 import { session } from "./session.js";
 
 const app = express();
@@ -29,6 +31,8 @@ app.use(express.json());
 app.use(session);
 app.use(passport.authenticate("session"));
 
+app.get("/", helmet({ corp: "same-origin", embed: false }), getRoot);
+app.use("/auth", authRouter);
 app.use("/frames", framesRouter);
 app.use("/images", imagesRouter);
 app.get(
@@ -37,7 +41,6 @@ app.get(
   helmet({ corp: "same-origin", embed: false }),
   getOEmbed,
 );
-
 app.use(
   "/",
   cors(),
