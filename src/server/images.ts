@@ -160,3 +160,40 @@ imagesRouter.get(
     );
   },
 );
+
+imagesRouter.delete(
+  "/:imageID",
+  helmet({ corp: "same-origin", embed: false }),
+  async (req, res) => {
+    const { imageID } = req.params;
+
+    const authedUser = req.user;
+    if (!authedUser) {
+      res.status(401).end();
+      return;
+    }
+
+    const image = await imageCollection.findOne({ _id: new ObjectId(imageID) });
+    if (!image) {
+      res.status(404).end();
+      return;
+    }
+    if (!image.userID.equals(authedUser._id)) {
+      res.status(403).end();
+      return;
+    }
+
+    await storage
+      .bucket(getImageBucketName())
+      .file(`${image._id}${image.ext}`)
+      .delete();
+
+    await mongoClient.withSession((session) =>
+      session.withTransaction(async (session) => {
+        await imageCollection.deleteOne({ _id: image._id }, { session });
+      }),
+    );
+
+    res.status(200).end();
+  },
+);

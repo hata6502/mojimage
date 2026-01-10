@@ -7,8 +7,10 @@ import {
 import { Suspense, use, useMemo, useState } from "react";
 import type {
   ChangeEventHandler,
+  Dispatch,
   DragEventHandler,
   FunctionComponent,
+  SetStateAction,
 } from "react";
 
 import {
@@ -27,8 +29,8 @@ const App: FunctionComponent<{
 }> = ({ authedUserPromise }) => {
   const authedUser = use(authedUserPromise);
 
+  const [deleteImageCount, setDeleteImageCount] = useState(0);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const uploadPercent = Math.round(uploadProgress * 100);
 
   const uploadedImagesPromise = useMemo(async () => {
     const uploadedImagesResponse = await fetch("/images/uploaded");
@@ -39,7 +41,7 @@ const App: FunctionComponent<{
       await uploadedImagesResponse.json(),
     );
     return images;
-  }, [uploadProgress]);
+  }, [deleteImageCount, uploadProgress]);
 
   const uploadImages = async (files: File[]) => {
     try {
@@ -148,6 +150,7 @@ const App: FunctionComponent<{
                 <span className="text-base/6 font-semibold text-blue-950 dark:text-white">
                   画像をドロップまたはクリックしてアップロード
                 </span>
+
                 <input
                   type="file"
                   accept="image/*"
@@ -157,11 +160,17 @@ const App: FunctionComponent<{
                 />
 
                 {Boolean(uploadProgress) && (
-                  <div className="mt-3 w-full max-w-lg px-1 text-left">
-                    <div className="h-2 w-full rounded-sm bg-zinc-950/5 dark:bg-white/10">
+                  <div className="mt-4 w-full max-w-lg">
+                    <div
+                      role="progressbar"
+                      aria-valuenow={uploadProgress * 100}
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                      className="overflow-hidden rounded-full bg-zinc-200 dark:bg-white/10"
+                    >
                       <div
-                        className="h-full rounded-sm bg-blue-600 transition-[width] duration-300 ease-out"
-                        style={{ width: `${uploadPercent}%` }}
+                        className="h-2 rounded-full bg-blue-600 dark:bg-blue-500"
+                        style={{ width: `${uploadProgress * 100}%` }}
                       />
                     </div>
                   </div>
@@ -171,7 +180,10 @@ const App: FunctionComponent<{
 
             <section className="space-y-3 sm:space-y-4">
               <Suspense>
-                <UploadedImages uploadedImagesPromise={uploadedImagesPromise} />
+                <UploadedImages
+                  uploadedImagesPromise={uploadedImagesPromise}
+                  setDeleteImageCount={setDeleteImageCount}
+                />
               </Suspense>
             </section>
           </>
@@ -198,7 +210,8 @@ await createApp(
 
 const UploadedImages: FunctionComponent<{
   uploadedImagesPromise: Promise<UploadedImagesResponse["images"]>;
-}> = ({ uploadedImagesPromise }) => {
+  setDeleteImageCount: Dispatch<SetStateAction<number>>;
+}> = ({ uploadedImagesPromise, setDeleteImageCount }) => {
   const uploadedImages = use(uploadedImagesPromise);
 
   if (!uploadedImages.length) {
@@ -253,6 +266,28 @@ const UploadedImages: FunctionComponent<{
               location.href,
             );
 
+            const handleDeleteButtonClick = async () => {
+              if (
+                !confirm(
+                  `画像「${image.alt.slice(0, 10)}…」を削除しますか?
+この操作は取り消せません
+`,
+                )
+              ) {
+                return;
+              }
+
+              const deleteImageResponse = await fetch(
+                `/images/${encodeURIComponent(image.id)}`,
+                { method: "DELETE" },
+              );
+              if (!deleteImageResponse.ok) {
+                throw new Error("Failed to delete image");
+              }
+
+              setDeleteImageCount((deleteImageCount) => deleteImageCount + 1);
+            };
+
             const handleCopyImageURLButtonClick = async () => {
               await navigator.clipboard.writeText(String(imageURL));
             };
@@ -302,6 +337,7 @@ const UploadedImages: FunctionComponent<{
                     <button
                       type="button"
                       className="rounded-full p-2 text-zinc-500 transition hover:bg-zinc-950/5 hover:text-zinc-700 focus-visible:ring-2 focus-visible:ring-blue-500/40 focus-visible:outline-none dark:text-zinc-400 dark:hover:bg-white/5 dark:hover:text-zinc-200"
+                      onClick={handleDeleteButtonClick}
                     >
                       <TrashIcon aria-hidden="true" className="size-5" />
                     </button>
