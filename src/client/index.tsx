@@ -125,17 +125,6 @@ const App: FunctionComponent<{
         </div>
 
         <div aria-hidden="true" className="-ml-4 flex-1" />
-
-        <div className="flex items-center gap-3">
-          <a
-            href="https://help.hata6502.com/?q=Mojimage"
-            target="_blank"
-            rel="noreferrer"
-            className="rounded-lg p-2 text-sm/6 font-semibold text-zinc-900 transition hover:bg-zinc-950/5 focus-visible:ring-2 focus-visible:ring-blue-500/40 focus-visible:outline-none dark:text-white dark:hover:bg-white/5"
-          >
-            Mojimageとは?
-          </a>
-        </div>
       </header>
 
       <main className="mx-auto w-full max-w-5xl space-y-10 bg-white px-6 py-8 sm:px-10 dark:bg-zinc-900/80">
