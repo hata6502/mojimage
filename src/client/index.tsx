@@ -214,6 +214,7 @@ const App: FunctionComponent<{
                   width="1608"
                   height="666"
                   alt="WordPressのブロックエディターで「画像」ブロックを追加している画面。『アップロード』『画像を選択』『AIで生成』『URLから挿入』のボタンがあり、下部にURL入力欄（https://mojimage.hata6502.com/images/6…）が表示されている。上部に『ブロックを選択するには「/」を入力』の案内もある。"
+                  className="h-auto max-w-full"
                 />
               </p>
               <p>
@@ -227,6 +228,7 @@ const App: FunctionComponent<{
                   width="1526"
                   height="656"
                   alt='Web画面の「Embed」ダイアログ。左上に「Embed」、右上に「キャンセル」。中央に&lt;img src=… width="1876" height="1174" alt="…"&gt;というHTMLコードがテキストエリアに表示されており、alt属性には日本語で『日本語のWeb校正ツール「校正さん」の画面。左側の本文上部に赤枠で…という指摘が表示され、右側にはAIチャット欄が赤枠で表示され…』といった長い説明文が入っている。下部に黒い「更新」ボタンがある。背景には埋め込み先の入力欄が見える。'
+                  className="h-auto max-w-full"
                 />
               </p>
               <p>
@@ -240,6 +242,7 @@ const App: FunctionComponent<{
 
 ![日本語のWeb校正ツール「校正さん」の画面。左側の本文上部に赤枠で『本文の説得力を上げるため、自己評価の前提（対象範囲、準拠レベル、評価方法：手動/ツール、判断基準）を1〜3行で追記すると良いです。』という指摘が表示されている。右側にはAIチャット欄が赤枠で表示され、『今日はどんなお手伝いをしましょうか？』と、文章の見直し箇所の解説・他の見直し箇所表示・文章から読み取れる感情などの提案が並び、下部に入力欄『AIにメッセージを送信する』がある。]
 (https://mojimage.hata6502.com/images/695c51ebd3f1f4631640653b)"
+                  className="h-auto max-w-full"
                 />
               </p>
 
@@ -248,6 +251,10 @@ const App: FunctionComponent<{
                 テキスト選択やページ内検索、SEO・AIOなどの機能を利用するためには、scriptタグをWebサイトに埋め込む必要があります
                 <br />
                 Webサイトの制作者や管理者に依頼する必要があるかもしれません
+                <br />
+                表示が崩れる場合は、
+                <code>max-width: 100%;</code>や<code>height: auto;</code>
+                などのスタイルを適用する必要があります
               </p>
               <pre>
                 <code>
