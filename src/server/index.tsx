@@ -39,7 +39,7 @@ ${renderToStaticMarkup(
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-      <title>Mojimage</title>
+      <title>Mojimage - アクセシブル画像埋め込みツール</title>
 
       <link rel="apple-touch-icon" href="/favicon.png" />
       <link rel="icon" type="image/png" href="/favicon.png" />
