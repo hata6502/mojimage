@@ -186,100 +186,100 @@ const App: FunctionComponent<{
                 />
               </Suspense>
             </section>
+          </>
+        )}
 
-            <section
-              id="embed"
-              className="prose dark:prose-invert space-y-3 sm:space-y-4"
-            >
-              <h2>Mojimageの埋め込み方</h2>
-              <p>
-                Mojimageにアップロードした画像は、以下の方法でサイトに埋め込むことができます
-              </p>
+        <section
+          id="embed"
+          className="prose dark:prose-invert space-y-3 sm:space-y-4"
+        >
+          <h2>Mojimageの埋め込み方</h2>
+          <p>
+            Mojimageにアップロードした画像は、以下の方法でサイトに埋め込むことができます
+          </p>
 
-              <h3>画像を直リンクで挿入する</h3>
-              <p>
-                画像一覧にて、画像アドレスやMarkdown、imgタグ等をコピーできます
-                <br />
-                画像は https://mojimage.hata6502.com/images/*
-                の直リンクで挿入してください
-              </p>
-              <p>
-                <a href="https://wordpress.org/" target="_blank">
-                  WordPress
-                </a>
-                の場合
-                <br />
-                <img
-                  src="https://mojimage.hata6502.com/images/696282f834fcc32a4564adad"
-                  width="1608"
-                  height="666"
-                  alt="WordPressのブロックエディターで「画像」ブロックを追加している画面。『アップロード』『画像を選択』『AIで生成』『URLから挿入』のボタンがあり、下部にURL入力欄（https://mojimage.hata6502.com/images/6…）が表示されている。上部に『ブロックを選択するには「/」を入力』の案内もある。"
-                  className="h-auto max-w-full"
-                />
-              </p>
-              <p>
-                <a href="https://studio.design/" target="_blank">
-                  Studio
-                </a>
-                の場合
-                <br />
-                <img
-                  src="https://mojimage.hata6502.com/images/696282ef34fcc32a4564adac"
-                  width="1526"
-                  height="656"
-                  alt='Web画面の「Embed」ダイアログ。左上に「Embed」、右上に「キャンセル」。中央に&lt;img src=… width="1876" height="1174" alt="…"&gt;というHTMLコードがテキストエリアに表示されており、alt属性には日本語で『日本語のWeb校正ツール「校正さん」の画面。左側の本文上部に赤枠で…という指摘が表示され、右側にはAIチャット欄が赤枠で表示され…』といった長い説明文が入っている。下部に黒い「更新」ボタンがある。背景には埋め込み先の入力欄が見える。'
-                  className="h-auto max-w-full"
-                />
-              </p>
-              <p>
-                Markdownの場合
-                <br />
-                <img
-                  src="https://mojimage.hata6502.com/images/696282e134fcc32a4564adab"
-                  width="1612"
-                  height="434"
-                  alt="# mojimage
+          <h3>画像を直リンクで挿入する</h3>
+          <p>
+            画像一覧にて、画像アドレスやMarkdown、imgタグ等をコピーできます
+            <br />
+            画像は https://mojimage.hata6502.com/images/*
+            の直リンクで挿入してください
+          </p>
+          <p>
+            <a href="https://wordpress.org/" target="_blank">
+              WordPress
+            </a>
+            の場合
+            <br />
+            <img
+              src="https://mojimage.hata6502.com/images/696282f834fcc32a4564adad"
+              width="1608"
+              height="666"
+              alt="WordPressのブロックエディターで「画像」ブロックを追加している画面。『アップロード』『画像を選択』『AIで生成』『URLから挿入』のボタンがあり、下部にURL入力欄（https://mojimage.hata6502.com/images/6…）が表示されている。上部に『ブロックを選択するには「/」を入力』の案内もある。"
+              className="h-auto max-w-full"
+            />
+          </p>
+          <p>
+            <a href="https://studio.design/" target="_blank">
+              Studio
+            </a>
+            の場合
+            <br />
+            <img
+              src="https://mojimage.hata6502.com/images/696282ef34fcc32a4564adac"
+              width="1526"
+              height="656"
+              alt='Web画面の「Embed」ダイアログ。左上に「Embed」、右上に「キャンセル」。中央に&lt;img src=… width="1876" height="1174" alt="…"&gt;というHTMLコードがテキストエリアに表示されており、alt属性には日本語で『日本語のWeb校正ツール「校正さん」の画面。左側の本文上部に赤枠で…という指摘が表示され、右側にはAIチャット欄が赤枠で表示され…』といった長い説明文が入っている。下部に黒い「更新」ボタンがある。背景には埋め込み先の入力欄が見える。'
+              className="h-auto max-w-full"
+            />
+          </p>
+          <p>
+            Markdownの場合
+            <br />
+            <img
+              src="https://mojimage.hata6502.com/images/696282e134fcc32a4564adab"
+              width="1612"
+              height="434"
+              alt="# mojimage
 
 ![日本語のWeb校正ツール「校正さん」の画面。左側の本文上部に赤枠で『本文の説得力を上げるため、自己評価の前提（対象範囲、準拠レベル、評価方法：手動/ツール、判断基準）を1〜3行で追記すると良いです。』という指摘が表示されている。右側にはAIチャット欄が赤枠で表示され、『今日はどんなお手伝いをしましょうか？』と、文章の見直し箇所の解説・他の見直し箇所表示・文章から読み取れる感情などの提案が並び、下部に入力欄『AIにメッセージを送信する』がある。]
 (https://mojimage.hata6502.com/images/695c51ebd3f1f4631640653b)"
-                  className="h-auto max-w-full"
-                />
-              </p>
+              className="h-auto max-w-full"
+            />
+          </p>
 
-              <h3>scriptタグを埋め込む</h3>
-              <p>
-                テキスト選択やページ内検索、SEO・AIOなどの機能を利用するためには、scriptタグをサイトに埋め込む必要があります
-                <br />
-                サイトの制作者や管理者に依頼する必要があるかもしれません
-                <br />
-                表示が崩れる場合は、
-                <code>max-width: 100%;</code>や<code>height: auto;</code>
-                などのスタイルを適用する必要があります
-              </p>
-              <pre>
-                <code>
-                  &lt;script type=&quot;module&quot;
-                  src=&quot;https://mojimage.hata6502.com/embed.js&quot;&gt;&lt;/script&gt;
-                </code>
-              </pre>
+          <h3>scriptタグを埋め込む</h3>
+          <p>
+            テキスト選択やページ内検索、SEO・AIOなどの機能を利用するためには、scriptタグをサイトに埋め込む必要があります
+            <br />
+            サイトの制作者や管理者に依頼する必要があるかもしれません
+            <br />
+            表示が崩れる場合は、
+            <code>max-width: 100%;</code>や<code>height: auto;</code>
+            などのスタイルを適用する必要があります
+          </p>
+          <pre>
+            <code>
+              &lt;script type=&quot;module&quot;
+              src=&quot;https://mojimage.hata6502.com/embed.js&quot;&gt;&lt;/script&gt;
+            </code>
+          </pre>
 
-              <h3>動作確認する</h3>
-              <p>
-                scriptタグの埋め込みに成功すれば、画像内のテキストを選択できたり、ブラウザのページ内検索の対象になります
-                <br />
-                ぜひお試しください
-                <br />
-              </p>
-              <img
-                src="https://mojimage.hata6502.com/images/69628afca12c1e87d7c0a235"
-                width="960"
-                height="540"
-                alt="青い背景に白い文字で「この画像もテキスト選択したり、ページ内検索できます　ぜひお試しください」と書かれている。"
-                className="h-auto max-w-full"
-              />
-            </section>
-          </>
-        )}
+          <h3>動作確認する</h3>
+          <p>
+            scriptタグの埋め込みに成功すれば、画像内のテキストを選択できたり、ブラウザのページ内検索の対象になります
+            <br />
+            ぜひお試しください
+            <br />
+          </p>
+          <img
+            src="https://mojimage.hata6502.com/images/69628afca12c1e87d7c0a235"
+            width="960"
+            height="540"
+            alt="青い背景に白い文字で「この画像もテキスト選択したり、ページ内検索できます　ぜひお試しください」と書かれている。"
+            className="h-auto max-w-full"
+          />
+        </section>
       </main>
     </div>
   );
