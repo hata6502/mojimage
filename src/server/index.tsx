@@ -49,6 +49,7 @@ ${renderToStaticMarkup(
     </head>
 
     <body>
+      <script type="module" src="/embed.js"></script>
       <script type="module" src="/index.js"></script>
     </body>
   </html>,
