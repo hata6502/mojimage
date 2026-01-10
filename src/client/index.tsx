@@ -193,7 +193,7 @@ const App: FunctionComponent<{
             >
               <h2>Mojimageの埋め込み方</h2>
               <p>
-                Mojimageにアップロードした画像は、以下の方法でWebサイトに埋め込むことができます
+                Mojimageにアップロードした画像は、以下の方法でサイトに埋め込むことができます
               </p>
 
               <h3>画像を直リンクで挿入する</h3>
@@ -248,9 +248,9 @@ const App: FunctionComponent<{
 
               <h3>scriptタグを埋め込む</h3>
               <p>
-                テキスト選択やページ内検索、SEO・AIOなどの機能を利用するためには、scriptタグをWebサイトに埋め込む必要があります
+                テキスト選択やページ内検索、SEO・AIOなどの機能を利用するためには、scriptタグをサイトに埋め込む必要があります
                 <br />
-                Webサイトの制作者や管理者に依頼する必要があるかもしれません
+                サイトの制作者や管理者に依頼する必要があるかもしれません
                 <br />
                 表示が崩れる場合は、
                 <code>max-width: 100%;</code>や<code>height: auto;</code>
@@ -262,6 +262,21 @@ const App: FunctionComponent<{
                   src=&quot;https://mojimage.hata6502.com/embed.js&quot;&gt;&lt;/script&gt;
                 </code>
               </pre>
+
+              <h3>動作確認する</h3>
+              <p>
+                scriptタグの埋め込みに成功すれば、画像内のテキストを選択できたり、ブラウザのページ内検索の対象になります
+                <br />
+                ぜひお試しください
+                <br />
+              </p>
+              <img
+                src="https://mojimage.hata6502.com/images/69628afca12c1e87d7c0a235"
+                width="960"
+                height="540"
+                alt="青い背景に白い文字で「この画像もテキスト選択したり、ページ内検索できます　ぜひお試しください」と書かれている。"
+                className="h-auto max-w-full"
+              />
             </section>
           </>
         )}
