@@ -12,4 +12,4 @@ export interface ImageDocument {
   uploadedDate: Date;
   userID: ObjectId;
 }
-export const imageCollection = mongoDB.collection<ImageDocument>("image");
+export const imageCollection = mongoDB.collection<ImageDocument>("images");
