@@ -52,5 +52,16 @@ export type UploadImageRequest = z.infer<typeof uploadImageRequestSchema>;
 export const uploadImageRequestSchema = z.object({
   image: z.url({ protocol: /^data$/ }),
 });
-export type UploadImageResponse = z.infer<typeof uploadImageResponseSchema>;
-export const uploadImageResponseSchema = z.object({ id: z.string() });
+
+export type UploadedImagesResponse = z.infer<
+  typeof uploadedImagesResponseSchema
+>;
+export const uploadedImagesResponseSchema = z.object({
+  images: z.array(
+    z.object({
+      id: z.string(),
+      alt: z.string(),
+      uploadedDate: z.string(),
+    }),
+  ),
+});

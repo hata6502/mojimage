@@ -9,6 +9,7 @@ export interface ImageDocument {
   ext: string;
   alt: string;
   textAnnotations: TextAnnotation[];
+  uploadedDate: Date;
   userID: ObjectId;
 }
 export const imageCollection = mongoDB.collection<ImageDocument>("image");

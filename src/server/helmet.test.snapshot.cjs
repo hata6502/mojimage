@@ -1,6 +1,6 @@
 exports[`helmet > {\"corp\":\"cross-origin\",\"embed\":false} 1`] = `
 {
-  "content-security-policy": "connect-src 'self' https://c.bing.com https://*.clarity.ms https://storage.googleapis.com/image-mojimage-development/;frame-ancestors 'self';img-src 'self' https://storage.googleapis.com/image-mojimage-development/;script-src 'self' https://c.bing.com https://*.clarity.ms;default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';object-src 'none';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+  "content-security-policy": "connect-src 'self' https://c.bing.com https://*.clarity.ms https://lh3.googleusercontent.com https://storage.googleapis.com/image-mojimage-development/;frame-ancestors 'self';img-src 'self' https://lh3.googleusercontent.com https://storage.googleapis.com/image-mojimage-development/;script-src 'self' https://c.bing.com https://*.clarity.ms;default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';object-src 'none';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
   "cross-origin-opener-policy": "same-origin",
   "cross-origin-resource-policy": "cross-origin",
   "origin-agent-cluster": "?1",
@@ -17,7 +17,7 @@ exports[`helmet > {\"corp\":\"cross-origin\",\"embed\":false} 1`] = `
 
 exports[`helmet > {\"corp\":\"same-origin\",\"embed\":false} 1`] = `
 {
-  "content-security-policy": "connect-src 'self' https://c.bing.com https://*.clarity.ms https://storage.googleapis.com/image-mojimage-development/;frame-ancestors 'self';img-src 'self' https://storage.googleapis.com/image-mojimage-development/;script-src 'self' https://c.bing.com https://*.clarity.ms;default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';object-src 'none';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+  "content-security-policy": "connect-src 'self' https://c.bing.com https://*.clarity.ms https://lh3.googleusercontent.com https://storage.googleapis.com/image-mojimage-development/;frame-ancestors 'self';img-src 'self' https://lh3.googleusercontent.com https://storage.googleapis.com/image-mojimage-development/;script-src 'self' https://c.bing.com https://*.clarity.ms;default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';object-src 'none';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
   "cross-origin-opener-policy": "same-origin",
   "cross-origin-resource-policy": "same-origin",
   "origin-agent-cluster": "?1",
@@ -34,7 +34,7 @@ exports[`helmet > {\"corp\":\"same-origin\",\"embed\":false} 1`] = `
 
 exports[`helmet > {\"corp\":\"same-origin\",\"embed\":true} 1`] = `
 {
-  "content-security-policy": "connect-src 'self' https://c.bing.com https://*.clarity.ms https://storage.googleapis.com/image-mojimage-development/;frame-ancestors *;img-src 'self' https://storage.googleapis.com/image-mojimage-development/;script-src 'self' https://c.bing.com https://*.clarity.ms;default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';object-src 'none';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+  "content-security-policy": "connect-src 'self' https://c.bing.com https://*.clarity.ms https://lh3.googleusercontent.com https://storage.googleapis.com/image-mojimage-development/;frame-ancestors *;img-src 'self' https://lh3.googleusercontent.com https://storage.googleapis.com/image-mojimage-development/;script-src 'self' https://c.bing.com https://*.clarity.ms;default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';object-src 'none';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
   "cross-origin-opener-policy": "same-origin",
   "cross-origin-resource-policy": "same-origin",
   "origin-agent-cluster": "?1",
