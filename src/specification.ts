@@ -60,6 +60,8 @@ export const uploadedImagesResponseSchema = z.object({
   images: z.array(
     z.object({
       id: z.string(),
+      width: z.number(),
+      height: z.number(),
       alt: z.string(),
       uploadedDate: z.string(),
     }),

@@ -1,4 +1,9 @@
-import { PhotoIcon } from "@heroicons/react/24/outline";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import {
+  CodeBracketIcon,
+  PhotoIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import { Suspense, use, useMemo, useState } from "react";
 import type {
   ChangeEventHandler,
@@ -164,14 +169,10 @@ const App: FunctionComponent<{
               </label>
             </section>
 
-            <section className="bg-white p-2 dark:bg-zinc-900/80">
-              <div className="-mx-2 overflow-x-auto sm:mx-0">
-                <Suspense>
-                  <UploadedImages
-                    uploadedImagesPromise={uploadedImagesPromise}
-                  />
-                </Suspense>
-              </div>
+            <section className="space-y-3 sm:space-y-4">
+              <Suspense>
+                <UploadedImages uploadedImagesPromise={uploadedImagesPromise} />
+              </Suspense>
             </section>
           </>
         )}
@@ -215,38 +216,152 @@ const UploadedImages: FunctionComponent<{
   }
 
   return (
-    <table className="min-w-[460px] text-left text-xs/5 text-zinc-950 sm:min-w-full sm:text-sm/6 dark:text-white">
-      <thead className="font-semibold text-zinc-400 uppercase dark:text-zinc-500">
-        <tr>
-          <th scope="col" className="w-24 pb-2"></th>
-          <th scope="col" className="pb-2">
-            代替テキスト
-          </th>
-          <th scope="col" className="pb-2">
-            アップロード日時
-          </th>
-        </tr>
-      </thead>
+    <div className="overflow-x-auto">
+      <table className="min-w-[460px] text-left text-sm/6 text-zinc-950 sm:min-w-full dark:text-white">
+        <thead className="text-zinc-500 dark:text-zinc-400">
+          <tr>
+            <th
+              scope="col"
+              className="min-w-24 border-b border-b-zinc-950/10 px-4 py-2 font-medium uppercase dark:border-b-white/10"
+            ></th>
 
-      <tbody className="divide-y divide-zinc-950/5 dark:divide-white/10">
-        {uploadedImages.map((image) => (
-          <tr key={image.id} className="hover:bg-zinc-50 dark:hover:bg-white/5">
-            <th scope="row" className="w-24 py-2 pr-4 align-top">
-              <img
-                src={`/images/${encodeURIComponent(image.id)}`}
-                alt={image.alt}
-                className="size-20 object-cover"
-              />
+            <th
+              scope="col"
+              className="min-w-[240px] border-b border-b-zinc-950/10 px-4 py-2 text-left text-xs/5 font-medium uppercase dark:border-b-white/10"
+            >
+              代替テキスト
             </th>
-            <td className="py-2 pr-4 text-xs/5 break-words whitespace-normal text-zinc-600 sm:text-sm/6 dark:text-zinc-300">
-              {image.alt}
-            </td>
-            <td className="py-2 text-xs/5 text-zinc-500 sm:text-sm/6 dark:text-zinc-400">
-              {new Date(image.uploadedDate).toLocaleString()}
-            </td>
+
+            <th
+              scope="col"
+              className="border-b border-b-zinc-950/10 px-4 py-2 text-left text-xs/5 font-medium uppercase dark:border-b-white/10"
+            >
+              アップロード日時
+            </th>
+
+            <th
+              scope="col"
+              className="border-b border-b-zinc-950/10 px-4 py-2 text-right text-xs/5 font-medium uppercase dark:border-b-white/10"
+            ></th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+
+        <tbody>
+          {uploadedImages.map((image) => {
+            const imageURL = new URL(
+              `/images/${encodeURIComponent(image.id)}`,
+              location.href,
+            );
+
+            const handleCopyImageURLButtonClick = async () => {
+              await navigator.clipboard.writeText(String(imageURL));
+            };
+
+            const handleCopyMarkdownButtonClick = async () => {
+              await navigator.clipboard.writeText(
+                `![${image.alt}](${imageURL})`,
+              );
+            };
+
+            const handleCopyImgButtonClick = async () => {
+              const imageElement = document.createElement("img");
+              imageElement.src = String(imageURL);
+              imageElement.width = image.width;
+              imageElement.height = image.height;
+              imageElement.alt = image.alt;
+
+              await navigator.clipboard.writeText(imageElement.outerHTML);
+            };
+
+            return (
+              <tr
+                key={image.id}
+                className="hover:bg-zinc-950/2.5 dark:hover:bg-white/5"
+              >
+                <th
+                  scope="row"
+                  className="border-b border-zinc-950/5 px-4 py-3 align-middle dark:border-white/5"
+                >
+                  <img
+                    src={`/images/${encodeURIComponent(image.id)}`}
+                    alt={image.alt}
+                    className="size-20 rounded-md object-cover"
+                  />
+                </th>
+
+                <td className="border-b border-zinc-950/5 px-4 py-3 text-sm/6 break-words whitespace-normal text-zinc-600 dark:border-white/5 dark:text-zinc-300">
+                  {image.alt}
+                </td>
+
+                <td className="border-b border-zinc-950/5 px-4 py-3 text-sm/6 text-zinc-500 dark:border-white/5 dark:text-zinc-400">
+                  {new Date(image.uploadedDate).toLocaleString()}
+                </td>
+
+                <td className="border-b border-zinc-950/5 px-4 py-3 text-right align-middle dark:border-white/5">
+                  <div className="flex items-center justify-end gap-2">
+                    <button
+                      type="button"
+                      className="rounded-full p-2 text-zinc-500 transition hover:bg-zinc-950/5 hover:text-zinc-700 focus-visible:ring-2 focus-visible:ring-blue-500/40 focus-visible:outline-none dark:text-zinc-400 dark:hover:bg-white/5 dark:hover:text-zinc-200"
+                    >
+                      <TrashIcon aria-hidden="true" className="size-5" />
+                    </button>
+
+                    <Menu as="div" className="relative inline-block text-left">
+                      <MenuButton className="rounded-full p-2 text-zinc-500 transition hover:bg-zinc-950/5 hover:text-zinc-700 focus-visible:ring-2 focus-visible:ring-blue-500/40 focus-visible:outline-none dark:text-zinc-400 dark:hover:bg-white/5 dark:hover:text-zinc-200">
+                        <CodeBracketIcon
+                          aria-hidden="true"
+                          className="size-5"
+                        />
+                      </MenuButton>
+
+                      <MenuItems
+                        transition
+                        anchor="bottom end"
+                        portal
+                        className="z-20 w-56 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in dark:bg-zinc-800 dark:shadow-none dark:-outline-offset-1 dark:outline-white/10"
+                      >
+                        <div className="py-1">
+                          <MenuItem
+                            as="button"
+                            onClick={handleCopyImageURLButtonClick}
+                            className="block w-full px-4 py-2 text-left text-sm text-zinc-700 data-focus:bg-zinc-100 data-focus:text-zinc-900 data-focus:outline-hidden dark:text-zinc-300 dark:data-focus:bg-white/5 dark:data-focus:text-white"
+                          >
+                            画像アドレスをコピー
+                          </MenuItem>
+
+                          <MenuItem
+                            as="button"
+                            onClick={handleCopyMarkdownButtonClick}
+                            className="block w-full px-4 py-2 text-left text-sm text-zinc-700 data-focus:bg-zinc-100 data-focus:text-zinc-900 data-focus:outline-hidden dark:text-zinc-300 dark:data-focus:bg-white/5 dark:data-focus:text-white"
+                          >
+                            Markdownをコピー
+                          </MenuItem>
+
+                          <MenuItem
+                            as="button"
+                            onClick={handleCopyImgButtonClick}
+                            className="block w-full px-4 py-2 text-left text-sm text-zinc-700 data-focus:bg-zinc-100 data-focus:text-zinc-900 data-focus:outline-hidden dark:text-zinc-300 dark:data-focus:bg-white/5 dark:data-focus:text-white"
+                          >
+                            imgタグをコピー
+                          </MenuItem>
+
+                          <MenuItem
+                            as="a"
+                            href="#embed"
+                            className="block px-4 py-2 text-sm text-zinc-700 data-focus:bg-zinc-100 data-focus:text-zinc-900 data-focus:outline-hidden dark:text-zinc-300 dark:data-focus:bg-white/5 dark:data-focus:text-white"
+                          >
+                            Mojimageの埋め込み方
+                          </MenuItem>
+                        </div>
+                      </MenuItems>
+                    </Menu>
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
   );
 };

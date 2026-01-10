@@ -4,7 +4,6 @@ gha-creds-*.json
 /.env
 /.git
 /application_default_credentials.json
-/catalyst-ui-kit
 /configdb
 /db
 /dist

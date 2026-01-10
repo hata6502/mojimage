@@ -132,8 +132,10 @@ imagesRouter.get(
       .toArray();
 
     res.json({
-      images: images.map(({ _id, alt, uploadedDate }) => ({
+      images: images.map(({ _id, width, height, alt, uploadedDate }) => ({
         id: String(_id),
+        width,
+        height,
         alt,
         uploadedDate: uploadedDate.toISOString(),
       })),
