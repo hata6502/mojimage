@@ -10,8 +10,13 @@ resource "google_storage_bucket" "image" {
     max_age_seconds = 300
   }
 }
-resource "google_storage_bucket_iam_member" "image_object_viewer" {
+resource "google_project_iam_custom_role" "storage_object_getter" {
+  role_id     = "storageObjectGetter"
+  title       = "Storage Object Getter"
+  permissions = ["storage.objects.get"]
+}
+resource "google_storage_bucket_iam_member" "image_object_getter" {
   bucket = google_storage_bucket.image.name
-  role   = "roles/storage.objectViewer"
+  role   = google_project_iam_custom_role.storage_object_getter.name
   member = "allUsers"
 }
