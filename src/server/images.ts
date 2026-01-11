@@ -180,13 +180,16 @@ imagesRouter.get(
       .toArray();
 
     res.json({
-      images: images.map(({ _id, width, height, alt, uploadedDate }) => ({
-        id: String(_id),
-        width,
-        height,
-        alt,
-        uploadedDate: uploadedDate.toISOString(),
-      })),
+      images: images.map(
+        ({ _id, width, height, alt, textAnnotations, uploadedDate }) => ({
+          id: String(_id),
+          width,
+          height,
+          alt,
+          textAnnotations,
+          uploadedDate: uploadedDate.toISOString(),
+        }),
+      ),
     } satisfies UploadedImagesResponse);
   },
 );

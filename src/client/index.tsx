@@ -377,10 +377,17 @@ const UploadedImages: FunctionComponent<{
 
             const handleCopyImgButtonClick = async () => {
               const imageElement = document.createElement("img");
-              imageElement.src = String(imageURL);
               imageElement.width = image.width;
               imageElement.height = image.height;
+              imageElement.src = String(imageURL);
               imageElement.alt = image.alt;
+
+              const overallTextAnnotation = image.textAnnotations.at(0);
+              if (overallTextAnnotation) {
+                imageElement.lang = overallTextAnnotation.locale;
+                imageElement.ariaDescription =
+                  overallTextAnnotation.description;
+              }
 
               await navigator.clipboard.writeText(imageElement.outerHTML);
             };

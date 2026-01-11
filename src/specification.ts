@@ -61,6 +61,7 @@ export const uploadedImagesResponseSchema = z.object({
       width: z.number(),
       height: z.number(),
       alt: z.string(),
+      textAnnotations: z.array(textAnnotationSchema),
       uploadedDate: z.string(),
     }),
   ),
