@@ -375,12 +375,6 @@ const UploadedImages: FunctionComponent<{
               await navigator.clipboard.writeText(String(imageURL));
             };
 
-            const handleCopyMarkdownButtonClick = async () => {
-              await navigator.clipboard.writeText(
-                `![${image.alt}](${imageURL})`,
-              );
-            };
-
             const handleCopyImgButtonClick = async () => {
               const imageElement = document.createElement("img");
               imageElement.src = String(imageURL);
@@ -389,6 +383,16 @@ const UploadedImages: FunctionComponent<{
               imageElement.alt = image.alt;
 
               await navigator.clipboard.writeText(imageElement.outerHTML);
+            };
+
+            const handleCopyMarkdownButtonClick = async () => {
+              await navigator.clipboard.writeText(
+                `![${image.alt}](${imageURL})`,
+              );
+            };
+
+            const handleCopyCosenseButtonClick = async () => {
+              await navigator.clipboard.writeText(`[${imageURL}#.png]`);
             };
 
             return (
@@ -450,6 +454,14 @@ const UploadedImages: FunctionComponent<{
 
                           <MenuItem
                             as="button"
+                            onClick={handleCopyImgButtonClick}
+                            className="block w-full px-4 py-2 text-left text-sm text-zinc-700 data-focus:bg-zinc-100 data-focus:text-zinc-900 data-focus:outline-hidden dark:text-zinc-300 dark:data-focus:bg-white/5 dark:data-focus:text-white"
+                          >
+                            imgタグをコピー
+                          </MenuItem>
+
+                          <MenuItem
+                            as="button"
                             onClick={handleCopyMarkdownButtonClick}
                             className="block w-full px-4 py-2 text-left text-sm text-zinc-700 data-focus:bg-zinc-100 data-focus:text-zinc-900 data-focus:outline-hidden dark:text-zinc-300 dark:data-focus:bg-white/5 dark:data-focus:text-white"
                           >
@@ -458,10 +470,10 @@ const UploadedImages: FunctionComponent<{
 
                           <MenuItem
                             as="button"
-                            onClick={handleCopyImgButtonClick}
+                            onClick={handleCopyCosenseButtonClick}
                             className="block w-full px-4 py-2 text-left text-sm text-zinc-700 data-focus:bg-zinc-100 data-focus:text-zinc-900 data-focus:outline-hidden dark:text-zinc-300 dark:data-focus:bg-white/5 dark:data-focus:text-white"
                           >
-                            imgタグをコピー
+                            Cosense記法をコピー
                           </MenuItem>
 
                           <MenuItem
