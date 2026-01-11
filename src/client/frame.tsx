@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import type { FunctionComponent } from "react";
+import type { FunctionComponent, ReactEventHandler } from "react";
 import stringWidth from "string-width";
 
 import { adjustedAnnotations } from "../annotation.js";
@@ -13,6 +13,9 @@ if (!imageJSON) {
 const image = imageJSONSchema.parse(JSON.parse(imageJSON));
 
 const App: FunctionComponent = () => {
+  const [imageNaturalWidth, setImageNaturalWidth] = useState(0);
+  const [imageNaturalHeight, setImageNaturalHeight] = useState(0);
+
   const [resizeCount, setResizeCount] = useState(0);
 
   const textLayer = useRef<HTMLDivElement>(null);
@@ -34,12 +37,13 @@ const App: FunctionComponent = () => {
     const currentTextLayer = textLayer.current;
 
     for (const annotation of adjustedAnnotations(image.textAnnotations)) {
-      const left = (annotation.left / image.width) * innerWidth;
-      const top = (annotation.top / image.height) * innerHeight;
+      const left = (annotation.left / imageNaturalWidth) * innerWidth;
+      const top = (annotation.top / imageNaturalHeight) * innerHeight;
       const width =
-        ((annotation.right - annotation.left) / image.width) * innerWidth;
+        ((annotation.right - annotation.left) / imageNaturalWidth) * innerWidth;
       const height =
-        ((annotation.bottom - annotation.top) / image.height) * innerHeight;
+        ((annotation.bottom - annotation.top) / imageNaturalHeight) *
+        innerHeight;
 
       const defaultFontSize = Math.min(width, height);
       const expectedLength = Math.max(width, height);
@@ -83,7 +87,12 @@ const App: FunctionComponent = () => {
     return () => {
       currentTextLayer.replaceChildren();
     };
-  }, [image, resizeCount]);
+  }, [image, imageNaturalWidth, imageNaturalHeight, resizeCount]);
+
+  const handleImageLoad: ReactEventHandler<HTMLImageElement> = (event) => {
+    setImageNaturalWidth(event.currentTarget.naturalWidth);
+    setImageNaturalHeight(event.currentTarget.naturalHeight);
+  };
 
   return (
     <>
@@ -92,6 +101,7 @@ const App: FunctionComponent = () => {
         alt={image.alt}
         className="select-none"
         style={{ width: innerWidth, height: innerHeight }}
+        onLoad={handleImageLoad}
       />
 
       <div ref={textLayer} className="absolute top-0 left-0" />

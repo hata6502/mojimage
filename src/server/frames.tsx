@@ -23,8 +23,6 @@ framesRouter.get(
     const overallTextAnnotation = image.textAnnotations.at(0);
     const imageJSON: ImageJSON = {
       id: String(image._id),
-      width: image.width,
-      height: image.height,
       alt: image.alt,
       textAnnotations: image.textAnnotations,
     };

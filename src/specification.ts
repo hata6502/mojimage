@@ -16,8 +16,6 @@ export type TextAnnotation = z.infer<typeof textAnnotationSchema>;
 
 export const imageJSONSchema = z.object({
   id: z.string(),
-  width: z.number(),
-  height: z.number(),
   alt: z.string(),
   textAnnotations: z.array(textAnnotationSchema),
 });
