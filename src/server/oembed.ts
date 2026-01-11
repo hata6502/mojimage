@@ -43,10 +43,15 @@ export const getOEmbed: RequestHandler = async (req, res) => {
     iframe.src = String(
       new URL(`frames/${encodeURIComponent(String(image._id))}`, getAppURL()),
     );
-    iframe.lang = image.textAnnotations[0].locale;
     iframe.role = "img";
     iframe.title = image.alt;
-    iframe.ariaDescription = image.textAnnotations[0].description;
+
+    const overallTextAnnotation = image.textAnnotations.at(0);
+    if (overallTextAnnotation) {
+      iframe.lang = overallTextAnnotation.locale;
+      iframe.ariaDescription = overallTextAnnotation.description;
+    }
+
     window.document.body.append(iframe);
 
     res.json({

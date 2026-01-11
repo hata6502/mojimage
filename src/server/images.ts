@@ -67,6 +67,7 @@ imagesRouter.post(
     const textAnnotations = z
       .array(textAnnotationSchema.loose())
       .parse(annotateImageResponse.textAnnotations);
+    const overallTextAnnotation = textAnnotations.at(0);
 
     const analyzeResponse = await openai.responses.parse({
       model: "gpt-5.2",
@@ -84,7 +85,9 @@ imagesRouter.post(
       ],
       text: {
         format: zodTextFormat(
-          z.object({ alt: z.string().describe(textAnnotations[0].locale) }),
+          z.object({
+            alt: z.string().describe(overallTextAnnotation?.locale ?? ""),
+          }),
           "analyzeResult",
         ),
       },

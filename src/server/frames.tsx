@@ -20,6 +20,7 @@ framesRouter.get(
       return;
     }
 
+    const overallTextAnnotation = image.textAnnotations.at(0);
     const imageJSON: ImageJSON = {
       id: String(image._id),
       width: image.width,
@@ -30,14 +31,14 @@ framesRouter.get(
 
     res.send(`<!DOCTYPE html>
 ${renderToStaticMarkup(
-  <html lang={image.textAnnotations[0].locale}>
+  <html lang={overallTextAnnotation?.locale}>
     <head>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
 
       <title>{image.alt}</title>
 
-      <meta name="description" content={image.textAnnotations[0].description} />
+      <meta name="description" content={overallTextAnnotation?.description} />
 
       <link rel="apple-touch-icon" href="/favicon.png" />
       <link rel="icon" type="image/png" href="/favicon.png" />
