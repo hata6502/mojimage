@@ -263,10 +263,11 @@ const App: FunctionComponent<{
             ぜひお試しください
           </p>
           <img
-            src="https://mojimage.hata6502.com/images/69628afca12c1e87d7c0a235"
-            width="960"
-            height="540"
-            alt="青い背景に白い文字で「この画像もテキスト選択したり、ページ内検索できます　ぜひお試しください」と書かれている。"
+            src="https://mojimage.hata6502.com/images/69635be39c32eab4578a035e"
+            width="275"
+            height="155"
+            alt="この画像もテキスト選択したり、ページ内検索できます
+ぜひお試しください"
             className="h-auto max-w-full"
           />
         </section>
