@@ -1,6 +1,6 @@
 import stringWidth from "string-width";
 
-import type { TextAnnotation } from "../specification.js";
+import type { TextAnnotation } from "./specification.js";
 
 interface Annotation {
   description: string;

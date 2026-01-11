@@ -7,11 +7,15 @@ import OpenAI from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
 import { z } from "zod";
 
+import { adjustedAnnotations } from "../annotation.js";
 import {
   textAnnotationSchema,
   uploadImageRequestSchema,
 } from "../specification.js";
-import type { UploadedImagesResponse } from "../specification.js";
+import type {
+  TextAnnotation,
+  UploadedImagesResponse,
+} from "../specification.js";
 import { getImageBucketName, getOpenAIAPIKey } from "./env.js";
 import { helmet } from "./helmet.js";
 import { imageCollection } from "./image.js";
@@ -59,8 +63,6 @@ imagesRouter.post(
       .file(fileName)
       .save(new Uint8Array(await image.arrayBuffer()));
 
-    const jimpImage = await Jimp.fromBuffer(await image.arrayBuffer());
-
     const [annotateImageResponse] = await imageAnnotatorClient.textDetection(
       `gs://${encodeURIComponent(getImageBucketName())}/${encodeURIComponent(fileName)}`,
     );
@@ -68,6 +70,20 @@ imagesRouter.post(
       .array(textAnnotationSchema.loose())
       .parse(annotateImageResponse.textAnnotations);
     const overallTextAnnotation = textAnnotations.at(0);
+
+    const basisFontSize = 32;
+    const retinaPixelRatio = 2;
+    const zoom =
+      Math.min(
+        Math.max(
+          basisFontSize / (detectFontSize(textAnnotations) ?? basisFontSize),
+          0.4,
+        ),
+        2.5,
+      ) / retinaPixelRatio;
+    const jimpImage = await Jimp.fromBuffer(await image.arrayBuffer());
+    const width = jimpImage.bitmap.width * zoom;
+    const height = jimpImage.bitmap.height * zoom;
 
     const analyzeResponse = await openai.responses.parse({
       model: "gpt-5.2",
@@ -102,8 +118,8 @@ imagesRouter.post(
         await imageCollection.insertOne(
           {
             _id,
-            width: jimpImage.bitmap.width,
-            height: jimpImage.bitmap.height,
+            width,
+            height,
             ext,
             alt: analyzeResult.alt,
             textAnnotations,
@@ -118,6 +134,35 @@ imagesRouter.post(
     res.status(200).end();
   },
 );
+
+const detectFontSize = (textAnnotations: TextAnnotation[]) => {
+  const annotations = adjustedAnnotations(textAnnotations).map(
+    (annotation) => ({
+      charCount: [...new Intl.Segmenter().segment(annotation.description)]
+        .length,
+      fontSize: Math.min(
+        annotation.right - annotation.left,
+        annotation.bottom - annotation.top,
+      ),
+    }),
+  );
+
+  const charCount = annotations.reduce(
+    (sum, annotation) => sum + annotation.charCount,
+    0,
+  );
+  if (!charCount) {
+    return;
+  }
+
+  const averageFontSize =
+    annotations.reduce(
+      (sum, annotation) => sum + annotation.fontSize * annotation.charCount,
+      0,
+    ) / charCount;
+
+  return averageFontSize;
+};
 
 imagesRouter.get(
   "/uploaded",

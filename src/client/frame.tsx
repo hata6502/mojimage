@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import type { FunctionComponent } from "react";
 import stringWidth from "string-width";
 
+import { adjustedAnnotations } from "../annotation.js";
 import { imageJSONSchema } from "../specification.js";
-import { adjustedAnnotations } from "./annotation.js";
 import { createApp } from "./app.js";
 
 const imageJSON = document.querySelector("#image")?.textContent;
