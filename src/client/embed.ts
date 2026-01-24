@@ -35,12 +35,30 @@ const handleMutation = async () => {
         if (!iframe) {
           throw new Error("Invalid oEmbed response");
         }
-        iframe.className = image.className;
-        iframe.style.cssText = image.style.cssText;
-        iframe.style.aspectRatio = `${oEmbed.width} / ${oEmbed.height}`;
-        iframe.style.border = "none";
-        image.insertAdjacentHTML("afterend", container.innerHTML);
 
+        for (const attribute of image.attributes) {
+          switch (attribute.name) {
+            case "src": {
+              break;
+            }
+
+            case "class":
+            case "style": {
+              iframe.setAttribute(
+                attribute.name,
+                `${iframe.getAttribute(attribute.name)} ${attribute.value}`,
+              );
+              break;
+            }
+
+            default: {
+              iframe.setAttribute(attribute.name, attribute.value);
+              break;
+            }
+          }
+        }
+
+        image.insertAdjacentHTML("afterend", container.innerHTML);
         image.remove();
 
         continue;

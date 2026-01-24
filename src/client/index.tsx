@@ -181,7 +181,7 @@ const App: FunctionComponent<{
 
         <Embed />
 
-        <section className="space-y-3 divide-y divide-zinc-950/5 sm:space-y-4">
+        <section className="space-y-3 divide-y divide-zinc-950/5 sm:space-y-4 dark:divide-zinc-50/10">
           {[
             {
               title: "Mojimageとは?",
@@ -196,13 +196,13 @@ const App: FunctionComponent<{
               key={title}
               href={url}
               target="_blank"
-              className="group flex items-center gap-x-4 py-6 text-zinc-950 no-underline data-[hover]:bg-zinc-950/[2.5%]"
+              className="group flex items-center gap-x-4 py-6 text-zinc-950 no-underline data-[hover]:bg-zinc-950/[2.5%] dark:text-zinc-50 dark:data-[hover]:bg-zinc-50/[6%]"
             >
               <DocumentTextIcon
-                className="size-6 shrink-0 text-zinc-500 group-hover:text-zinc-700"
+                className="size-6 shrink-0 text-zinc-500 group-hover:text-zinc-700 dark:text-zinc-400 dark:group-hover:text-zinc-200"
                 aria-hidden="true"
               />
-              <span className="text-lg/7 font-semibold text-zinc-950 sm:text-base/6">
+              <span className="text-lg/7 font-semibold text-zinc-950 sm:text-base/6 dark:text-zinc-50">
                 {title}
               </span>
             </a>
@@ -211,17 +211,33 @@ const App: FunctionComponent<{
       </main>
 
       <footer className="mx-auto w-full max-w-5xl px-6 pb-10 sm:px-10">
-        <span className="text-xs leading-5 text-gray-500">
-          {new Date().getFullYear()}
-          &nbsp;
+        <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs leading-5 text-gray-500">
+          <span>
+            {new Date().getFullYear()}{" "}
+            <a
+              href="https://twitter.com/hata6502"
+              target="_blank"
+              className="underline hover:text-gray-600"
+            >
+              hata
+            </a>
+          </span>
+
           <a
-            href="https://twitter.com/hata6502"
+            href="https://kiyac.app/privacypolicy/QdjDmt5zvvxTVm2yo1I1"
             target="_blank"
-            className="hover:text-gray-600"
+            className="underline hover:text-gray-600"
           >
-            hata
+            プライバシーポリシー
           </a>
-        </span>
+          <a
+            href="https://kiyac.app/termsOfService/FtyJ8jV75KaObV04VVU4"
+            target="_blank"
+            className="underline hover:text-gray-600"
+          >
+            利用規約
+          </a>
+        </div>
       </footer>
     </div>
   );

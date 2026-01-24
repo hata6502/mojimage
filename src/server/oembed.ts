@@ -45,6 +45,8 @@ export const getOEmbed: RequestHandler = async (req, res) => {
     );
     iframe.role = "img";
     iframe.title = image.alt;
+    iframe.style.aspectRatio = `${image.width} / ${image.height}`;
+    iframe.style.border = "none";
 
     const overallTextAnnotation = image.textAnnotations.at(0);
     if (overallTextAnnotation) {
