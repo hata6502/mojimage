@@ -183,10 +183,10 @@ const App: FunctionComponent<{
 
         <section className="space-y-3 divide-y divide-zinc-950/5 sm:space-y-4 dark:divide-zinc-50/10">
           {[
-            {
-              title: "Mojimageとは?",
+            /*{
+              title: "ヘルプ",
               url: "https://help.hata6502.com/?q=Mojimage",
-            },
+            },*/
             {
               title: "校正さん",
               url: "https://kohsei-san.hata6502.com/lp/",
@@ -476,11 +476,36 @@ const Embed: FunctionComponent = () => (
     id="embed"
     className="prose dark:prose-invert mt-16 space-y-3 sm:mt-20 sm:space-y-4"
   >
-    <h2>Mojimageの埋め込み方</h2>
+    <h1>Mojimage</h1>
+    Mojimageは「画像で埋め込みたい」と「テキストとして扱いたい」の矛盾を解決する、アクセシブル画像埋め込みツールです
+    <h2>画像で埋め込みたい</h2>
+    <ul>
+      <li>図表をいろんなソフトで作っても、CMSでの埋め込みが非対応</li>
+      <li>手間をかけて、CMS内に図表を移植する必要がある</li>
+      <li>見た目そのままCMSに埋め込みたい</li>
+    </ul>
+    <h2>テキストとして扱いたい</h2>
+    <ul>
+      <li>画像内の文字は検索に引っかからない</li>
+      <li>範囲選択してコピーできない</li>
+      <li>アクセシビリティのため文字画像を避けたい</li>
+    </ul>
+    <h2>画像をウィジットで埋め込む</h2>
+    <p>
+      YouTubeやXのウィジェットと同じ感覚で、画像内の文字でも「ページ内検索」や「テキスト選択」を可能にします
+    </p>
+    <img
+      src="https://mojimage.hata6502.com/images/69635be39c32eab4578a035e"
+      width="275"
+      height="155"
+      alt="この画像もテキスト選択したり、ページ内検索できます
+ぜひお試しください"
+      className="h-auto max-w-full"
+    />
+    <h2>埋め込み方</h2>
     <p>
       Mojimageにアップロードした画像は、以下の方法でサイトに埋め込むことができます
     </p>
-
     <h3>画像を直リンクで挿入する</h3>
     <p>
       画像一覧にて、画像アドレスやMarkdown、imgタグ等をコピーできます
@@ -531,7 +556,6 @@ const Embed: FunctionComponent = () => (
 (https://mojimage.hata6502.com/images/695c51ebd3f1f4631640653b)"
       className="h-auto max-w-full"
     />
-
     <h3>scriptタグを埋め込む</h3>
     <p>
       テキスト選択やページ内検索、SEO・AIOなどの機能を利用するためには、scriptタグをサイトに埋め込む必要があります
@@ -548,20 +572,11 @@ const Embed: FunctionComponent = () => (
         src=&quot;https://mojimage.hata6502.com/embed.js&quot;&gt;&lt;/script&gt;
       </code>
     </pre>
-
     <h3>動作確認する</h3>
     <p>
       scriptタグの埋め込みに成功すれば、画像内のテキストを選択できたり、ブラウザのページ内検索の対象になります
       <br />
       ぜひお試しください
     </p>
-    <img
-      src="https://mojimage.hata6502.com/images/69635be39c32eab4578a035e"
-      width="275"
-      height="155"
-      alt="この画像もテキスト選択したり、ページ内検索できます
-ぜひお試しください"
-      className="h-auto max-w-full"
-    />
   </section>
 );
