@@ -502,6 +502,7 @@ const Embed: FunctionComponent = () => (
 ぜひお試しください"
       className="h-auto max-w-full"
     />
+    <a href="/auth/login/google">ログイン</a>
     <h2>埋め込み方</h2>
     <p>
       Mojimageにアップロードした画像は、以下の方法でサイトに埋め込むことができます
