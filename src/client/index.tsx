@@ -102,7 +102,7 @@ const App: FunctionComponent<{
 
   return (
     <div className="min-h-screen bg-white px-4 py-10 text-zinc-950 antialiased dark:bg-zinc-950 dark:text-white">
-      <header className="mx-auto mb-6 flex w-full max-w-5xl items-center gap-4 px-6 py-2.5 sm:px-10">
+      <header className="mx-auto flex w-full max-w-5xl items-center gap-4 px-6 py-2.5 sm:px-10">
         <div className="flex items-center gap-3">
           {authedUser ? (
             <>
@@ -131,7 +131,7 @@ const App: FunctionComponent<{
       <main className="mx-auto w-full max-w-5xl space-y-10 bg-white px-6 py-8 sm:px-10 dark:bg-zinc-900/80">
         {authedUser && (
           <>
-            <section className="space-y-3 sm:space-y-4">
+            <section className="mt-6 space-y-3 sm:space-y-4">
               <label
                 onDragOver={handleUploadImagesDragOver}
                 onDrop={handleUploadImagesDrop}
@@ -179,7 +179,7 @@ const App: FunctionComponent<{
           </>
         )}
 
-        <Embed />
+        <Landing />
 
         <section className="space-y-3 divide-y divide-zinc-950/5 sm:space-y-4 dark:divide-zinc-50/10">
           {[
@@ -471,7 +471,7 @@ const UploadedImages: FunctionComponent<{
   );
 };
 
-const Embed: FunctionComponent = () => (
+const Landing: FunctionComponent = () => (
   <section
     id="embed"
     className="prose dark:prose-invert mt-16 space-y-3 sm:mt-20 sm:space-y-4"
