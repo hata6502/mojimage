@@ -476,7 +476,7 @@ const Landing: FunctionComponent = () => (
     id="embed"
     className="prose dark:prose-invert mt-16 space-y-3 sm:mt-20 sm:space-y-4"
   >
-    <h1>Mojimage</h1>
+    <h1>Mojimage 📑</h1>
     Mojimageは「画像で埋め込みたい」と「テキストとして扱いたい」の矛盾を解決する、アクセシブル画像埋め込みツールです
     <h2>画像で埋め込みたい</h2>
     <ul>
@@ -579,5 +579,6 @@ const Landing: FunctionComponent = () => (
       <br />
       ぜひお試しください
     </p>
+    <a href="/auth/login/google">ログイン</a>
   </section>
 );
