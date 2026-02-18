@@ -118,7 +118,7 @@ const App: FunctionComponent<{
           ) : (
             <a
               href="/auth/login/google"
-              className="rounded-md border border-zinc-950/10 bg-white px-3 py-1.5 text-sm/6 font-semibold text-zinc-900 transition hover:border-zinc-950/20 hover:bg-zinc-50 focus-visible:ring-2 focus-visible:ring-blue-500/40 focus-visible:outline-none dark:border-white/10 dark:bg-zinc-900/60 dark:text-white dark:hover:border-white/20 dark:hover:bg-white/5"
+              className="rounded-md bg-blue-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm transition hover:bg-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:outline-none dark:bg-blue-500 dark:hover:bg-blue-400"
             >
               ログイン
             </a>
