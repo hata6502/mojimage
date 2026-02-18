@@ -18,7 +18,7 @@
     "test:unit": "node --test 'dist/**/*.test.js'"
   },
   "dependencies": {
-    "@google-cloud/storage": "^7.18.0",
+    "@google-cloud/storage": "^7.19.0",
     "@google-cloud/vision": "^5.3.4",
     "compression": "^1.8.1",
     "connect-mongo": "^6.0.0",
