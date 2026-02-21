@@ -49,26 +49,10 @@ const App: FunctionComponent<{
       for (const [fileIndex, file] of files.entries()) {
         setUploadProgress((fileIndex + 1) / files.length);
 
-        const image = await new Promise<string>((resolve, reject) => {
-          const fileReader = new FileReader();
-          fileReader.onload = () => {
-            if (typeof fileReader.result !== "string") {
-              reject(new Error("Failed to read file"));
-              return;
-            }
-
-            resolve(fileReader.result);
-          };
-          fileReader.onerror = () => {
-            reject(fileReader.error);
-          };
-          fileReader.readAsDataURL(file);
-        });
-
         const uploadImageResponse = await fetch("/images/upload", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ image } satisfies UploadImageRequest),
+          body: JSON.stringify(await getImage(file)),
         });
         if (!uploadImageResponse.ok) {
           throw new Error("Failed to upload image");
@@ -143,7 +127,7 @@ const App: FunctionComponent<{
 
                 <input
                   type="file"
-                  accept="image/*"
+                  accept="image/jpeg, image/png"
                   multiple
                   onChange={handleUploadImagesInputChange}
                   className="hidden"
@@ -257,6 +241,117 @@ await createApp(
     })()}
   />,
 );
+
+const getImage = async (file: File): Promise<UploadImageRequest> => {
+  const imageDataURL = await new Promise<string>((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      if (typeof fileReader.result !== "string") {
+        reject(new Error("Failed to read file"));
+        return;
+      }
+
+      resolve(fileReader.result);
+    };
+    fileReader.onerror = () => {
+      reject(fileReader.error);
+    };
+    fileReader.readAsDataURL(file);
+  });
+
+  const image = new Image();
+  image.src = imageDataURL;
+  await image.decode();
+
+  switch (file.type) {
+    case "image/jpeg": {
+      return {
+        image: image.src,
+        width: image.naturalWidth,
+        height: image.naturalHeight,
+      };
+    }
+
+    case "image/png": {
+      const canvas = document.createElement("canvas");
+      canvas.width = image.naturalWidth;
+      canvas.height = image.naturalHeight;
+      const canvasContext = canvas.getContext("2d", {
+        willReadFrequently: true,
+      });
+      if (!canvasContext) {
+        throw new Error("Failed to create canvas context");
+      }
+      canvasContext.drawImage(image, 0, 0);
+
+      let top = 0;
+      while (top < canvas.height) {
+        const a = canvasContext.getImageData(0, top, canvas.width, 1);
+        const b = canvasContext.getImageData(0, top + 1, canvas.width, 1);
+        if (a.data.some((value, index) => value !== b.data[index])) {
+          break;
+        }
+        top++;
+      }
+      let bottom = canvas.height - 1;
+      while (bottom >= 0) {
+        const a = canvasContext.getImageData(0, bottom, canvas.width, 1);
+        const b = canvasContext.getImageData(0, bottom - 1, canvas.width, 1);
+        if (a.data.some((value, index) => value !== b.data[index])) {
+          break;
+        }
+        bottom--;
+      }
+      let left = 0;
+      while (left < canvas.width) {
+        const a = canvasContext.getImageData(left, 0, 1, canvas.height);
+        const b = canvasContext.getImageData(left + 1, 0, 1, canvas.height);
+        if (a.data.some((value, index) => value !== b.data[index])) {
+          break;
+        }
+        left++;
+      }
+      let right = canvas.width - 1;
+      while (right >= 0) {
+        const a = canvasContext.getImageData(right, 0, 1, canvas.height);
+        const b = canvasContext.getImageData(right - 1, 0, 1, canvas.height);
+        if (a.data.some((value, index) => value !== b.data[index])) {
+          break;
+        }
+        right--;
+      }
+
+      const trimmedCanvas = document.createElement("canvas");
+      trimmedCanvas.width = right - left + 1;
+      trimmedCanvas.height = bottom - top + 1;
+      const trimmedCanvasContext = trimmedCanvas.getContext("2d");
+      if (!trimmedCanvasContext) {
+        throw new Error("Failed to create trimmed canvas context");
+      }
+      trimmedCanvasContext.drawImage(
+        canvas,
+        left,
+        top,
+        trimmedCanvas.width,
+        trimmedCanvas.height,
+        0,
+        0,
+        trimmedCanvas.width,
+        trimmedCanvas.height,
+      );
+
+      return {
+        image: trimmedCanvas.toDataURL(),
+        width: trimmedCanvas.width,
+        height: trimmedCanvas.height,
+      };
+    }
+
+    default: {
+      throw new Error(`Unsupported file type: ${file.type}`);
+    }
+  }
+};
 
 const UploadedImages: FunctionComponent<{
   uploadedImagesPromise: Promise<UploadedImagesResponse["images"]>;
