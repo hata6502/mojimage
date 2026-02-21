@@ -1,7 +1,6 @@
 import { Storage } from "@google-cloud/storage";
 import vision from "@google-cloud/vision";
 import express from "express";
-import { Jimp } from "jimp";
 import { ObjectId } from "mongodb";
 import OpenAI from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
@@ -81,9 +80,8 @@ imagesRouter.post(
         ),
         2.5,
       ) / retinaPixelRatio;
-    const jimpImage = await Jimp.fromBuffer(await image.arrayBuffer());
-    const width = jimpImage.bitmap.width * zoom;
-    const height = jimpImage.bitmap.height * zoom;
+    const width = data.width * zoom;
+    const height = data.height * zoom;
 
     const analyzeResponse = await openai.responses.parse({
       model: "gpt-5.2",
