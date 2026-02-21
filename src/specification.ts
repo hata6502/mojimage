@@ -49,6 +49,8 @@ export const authedUserResponseSchema = z.object({
 export type UploadImageRequest = z.infer<typeof uploadImageRequestSchema>;
 export const uploadImageRequestSchema = z.object({
   image: z.url({ protocol: /^data$/ }),
+  width: z.number(),
+  height: z.number(),
 });
 
 export type UploadedImagesResponse = z.infer<

@@ -24,6 +24,7 @@ export const helmet = ({
         "frame-ancestors": [embed ? "*" : "'self'"],
         "img-src": [
           "'self'",
+          "data:",
           "https://lh3.googleusercontent.com",
           imageBucketURL,
         ],
