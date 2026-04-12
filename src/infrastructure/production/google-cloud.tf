@@ -52,6 +52,12 @@ resource "google_cloud_run_v2_service" "server" {
   name     = "server"
   location = var.google_cloud_region
 
+  # 動作停止
+  scaling {
+    scaling_mode          = "MANUAL"
+    manual_instance_count = 0
+  }
+
   template {
     containers {
       image = "${var.google_cloud_region}-docker.pkg.dev/${var.google_cloud_project}/server/server:c0bffeee67604b1dd70b04d526adf9cc0693a857"
